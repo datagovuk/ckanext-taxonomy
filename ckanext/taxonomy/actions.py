@@ -30,8 +30,11 @@ def taxonomy_show(context, data_dict):
     _check_access('taxonomy_show', context, data_dict)
 
     model = context['model']
-    id = logic.get_or_bust(data_dict, 'id')
+    id = data_dict.get('id')
     uri = data_dict.get('uri')
+
+    if not id and not uri:
+        raise logic.ValidationError("Neither id or uri were provided")
 
     item = Taxonomy.get(id)
     if not item and uri:
@@ -192,9 +195,17 @@ def taxonomy_term_show(context, data_dict):
     _check_access('taxonomy_term_show', context, data_dict)
     model = context['model']
 
-    id = logic.get_or_bust(data_dict, 'id')
+    id = data_dict.get('id')
+    uri = data_dict.get('uri')
 
-    term = TaxonomyTerm.get(id)
+    if not id and not uri:
+        raise logic.ValidationError("Either id or uri is required")
+
+    if id:
+        term = TaxonomyTerm.get(id)
+    elif uri:
+        term = TaxonomyTerm.by_uri(uri)
+
     if not term:
         raise logic.NotFound()
 
