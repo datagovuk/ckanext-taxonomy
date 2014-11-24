@@ -1,3 +1,5 @@
+import json
+
 import ckan.plugins.toolkit as toolkit
 import ckan.logic as logic
 
@@ -211,6 +213,24 @@ def taxonomy_term_show(context, data_dict):
         raise logic.NotFound()
 
     return term.as_dict()
+
+
+@toolkit.side_effect_free
+def taxonomy_term_show_bulk(context, data_dict):
+    """
+    When given a list of URIs this function will return a list
+    of taxonomy terms.
+    """
+    _check_access('taxonomy_term_show', context, data_dict)
+    model = context['model']
+
+    uris = data_dict.get('uris')
+    if not uris:
+        raise logic.ValidationError("A list of URIs is required")
+
+    term_items = model.Session.query(TaxonomyTerm).\
+        filter(TaxonomyTerm.uri.in_(uris))
+    return [t.as_dict() for t in term_items]
 
 
 def taxonomy_term_create(context, data_dict):

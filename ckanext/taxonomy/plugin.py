@@ -42,6 +42,7 @@ class TaxonomyPlugin(p.SingletonPlugin):
             'taxonomy_term_list':   actions.taxonomy_term_list,
             'taxonomy_term_tree':   actions.taxonomy_term_tree,
             'taxonomy_term_show':   actions.taxonomy_term_show,
+            'taxonomy_term_show_bulk': actions.taxonomy_term_show_bulk,
             'taxonomy_term_create': actions.taxonomy_term_create,
             'taxonomy_term_update': actions.taxonomy_term_update,
             'taxonomy_term_delete': actions.taxonomy_term_delete
