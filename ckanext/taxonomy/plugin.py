@@ -4,6 +4,7 @@ import ckan.plugins as p
 
 log = getLogger(__name__)
 
+
 class TaxonomyPlugin(p.SingletonPlugin):
     '''
     Taxonomy plugin that provides hierarchical 'tags'.
@@ -62,4 +63,3 @@ class TaxonomyPlugin(p.SingletonPlugin):
             'taxonomy_term_update': auth.taxonomy_term_update,
             'taxonomy_term_delete': auth.taxonomy_term_delete
         }
-

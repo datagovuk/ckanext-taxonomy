@@ -30,11 +30,11 @@ class TaxonomyCommand(cli.CkanCommand):
 
     def __init__(self, name):
         self.parser.add_option('--filename', dest='filename', default=None,
-            help='Path to a file')
+                               help='Path to a file')
         self.parser.add_option('--url', dest='url', default=None,
-            help='URL to a resource')
+                               help='URL to a resource')
         self.parser.add_option('--name', dest='name', default=None,
-            help='Name of the taxonomy to work with')
+                               help='Name of the taxonomy to work with')
 
         super(TaxonomyCommand, self).__init__(name)
 
@@ -76,5 +76,3 @@ class TaxonomyCommand(cli.CkanCommand):
             print "No NAME provided and it is required"
             print self.usage
             return
-
-

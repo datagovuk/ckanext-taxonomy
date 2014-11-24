@@ -4,6 +4,7 @@ from ckanext.taxonomy.tests.test_helpers import TaxonomyTestCase
 
 from nose.tools import raises
 
+
 class TestShowTaxonomy(TaxonomyTestCase):
 
     def test_show_valid_name(self):
@@ -56,7 +57,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
         res = logic.get_action('taxonomy_term_delete')(
             TestShowTaxonomy.sysadmin_context,
             {'id': res['id']})
-
 
     @raises(logic.NotFound)
     def test_show_term_missing(self):

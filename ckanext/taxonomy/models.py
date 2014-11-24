@@ -17,8 +17,10 @@ log = __import__('logging').getLogger(__name__)
 Base = declarative_base()
 metadata = MetaData()
 
+
 def make_uuid():
     return unicode(uuid.uuid4())
+
 
 class Taxonomy(Base):
     """
@@ -32,21 +34,22 @@ class Taxonomy(Base):
     uri = Column(types.UnicodeText)
 
     def __init__(self, **kwargs):
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(self, k, v)
 
     @classmethod
     def get(cls, name_or_id):
-        q = model.Session.query(Taxonomy).filter(Taxonomy.name==name_or_id)
+        q = model.Session.query(Taxonomy).filter(Taxonomy.name == name_or_id)
         obj = q.first()
         if not obj:
-            q = model.Session.query(Taxonomy).filter(Taxonomy.id==name_or_id)
+            q = model.Session.query(Taxonomy).filter(Taxonomy.id == name_or_id)
             obj = q.first()
         return obj
 
     @classmethod
     def by_uri(cls, uri):
-        return model.Session.query(Taxonomy).filter(Taxonomy.uri==uri).first()
+        return model.Session.query(Taxonomy)\
+            .filter(Taxonomy.uri == uri).first()
 
     def as_dict(self, with_terms=False):
         return {
@@ -60,7 +63,6 @@ class Taxonomy(Base):
         return u"<Taxonomy: %s>" % (self.name)
 
 
-
 class TaxonomyTerm(Base):
     """
     """
@@ -72,21 +74,23 @@ class TaxonomyTerm(Base):
     uri = Column(types.UnicodeText)
 
     taxonomy_id = Column(types.UnicodeText, ForeignKey('taxonomy.id'),
-        nullable=False)
+                         nullable=False)
 
     parent_id = Column(types.UnicodeText, ForeignKey('taxonomy_term.id'))
-    parent = relationship('TaxonomyTerm',
+    parent = relationship(
+        'TaxonomyTerm',
         primaryjoin="TaxonomyTerm.id==TaxonomyTerm.parent_id",
         backref='children', remote_side='TaxonomyTerm.id')
 
-    taxonomy = relationship(Taxonomy,
+    taxonomy = relationship(
+        Taxonomy,
         primaryjoin="TaxonomyTerm.taxonomy_id==Taxonomy.id",
         backref='terms')
 
     labels = Column(types.UnicodeText)
 
     def __init__(self, **kwargs):
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(self, k, v)
 
     def get_label(self, language):
@@ -121,18 +125,18 @@ class TaxonomyTerm(Base):
     @classmethod
     def get(cls, name_or_id):
         q = model.Session.query(TaxonomyTerm)\
-            .filter(TaxonomyTerm.name==name_or_id)
+            .filter(TaxonomyTerm.name == name_or_id)
         obj = q.first()
         if not obj:
             q = model.Session.query(TaxonomyTerm)\
-                .filter(TaxonomyTerm.id==name_or_id)
+                .filter(TaxonomyTerm.id == name_or_id)
             obj = q.first()
         return obj
 
     @classmethod
     def by_uri(cls, uri):
         q = model.Session.query(TaxonomyTerm)\
-            .filter(TaxonomyTerm.uri==uri)
+            .filter(TaxonomyTerm.uri == uri)
         return q.first()
 
     def as_dict(self, language="en"):
@@ -154,7 +158,7 @@ class TaxonomyTerm(Base):
 def init_tables():
     Base.metadata.create_all(model.meta.engine)
 
+
 def remove_tables():
     TaxonomyTerm.__table__.drop(model.meta.engine, checkfirst=False)
     Taxonomy.__table__.drop(model.meta.engine, checkfirst=False)
-

@@ -5,6 +5,7 @@ from ckan.lib.create_test_data import CreateTestData
 
 from ckanext.taxonomy.models import Taxonomy, init_tables, remove_tables
 
+
 class TaxonomyTestCase(BaseCase):
 
     @classmethod
@@ -30,7 +31,6 @@ class TaxonomyTestCase(BaseCase):
         cls.sysadmin_context = {'user': 'sysadmin', 'model': model}
         cls.normal_context = {'user': 'test', 'model': model}
         cls.empty_context = {'user': '', 'model': model}
-
 
     @classmethod
     def setup_taxonomy_data(cls):

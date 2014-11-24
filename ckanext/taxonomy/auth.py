@@ -1,5 +1,6 @@
 from ckan.logic import auth_allow_anonymous_access
 
+
 @auth_allow_anonymous_access
 def taxonomy_list(context=None, data_dict=None):
     """
@@ -17,6 +18,7 @@ def taxonomy_show(context=None, data_dict=None):
     """
     return {'success': True}
 
+
 @auth_allow_anonymous_access
 def taxonomy_create(context=None, data_dict=None):
     """
@@ -26,6 +28,7 @@ def taxonomy_create(context=None, data_dict=None):
     There is a shortcut where this will not be called for sysadmins
     """
     return {'success': False}
+
 
 @auth_allow_anonymous_access
 def taxonomy_update(context=None, data_dict=None):
@@ -37,6 +40,7 @@ def taxonomy_update(context=None, data_dict=None):
     """
     return {'success': False}
 
+
 @auth_allow_anonymous_access
 def taxonomy_delete(context=None, data_dict=None):
     """
@@ -46,12 +50,14 @@ def taxonomy_delete(context=None, data_dict=None):
     """
     return {'success': False}
 
+
 @auth_allow_anonymous_access
 def taxonomy_term_list(context=None, data_dict=None):
     """
     Can a user list taxonomy terms.
     """
     return {'success': True}
+
 
 @auth_allow_anonymous_access
 def taxonomy_term_tree(context=None, data_dict=None):
@@ -68,6 +74,7 @@ def taxonomy_term_show(context=None, data_dict=None):
     """
     return {'success': True}
 
+
 @auth_allow_anonymous_access
 def taxonomy_term_create(context=None, data_dict=None):
     """
@@ -78,6 +85,7 @@ def taxonomy_term_create(context=None, data_dict=None):
     """
     return {'success': False}
 
+
 @auth_allow_anonymous_access
 def taxonomy_term_update(context=None, data_dict=None):
     """
@@ -87,6 +95,7 @@ def taxonomy_term_update(context=None, data_dict=None):
     """
     return {'success': False}
 
+
 @auth_allow_anonymous_access
 def taxonomy_term_delete(context=None, data_dict=None):
     """
@@ -95,4 +104,3 @@ def taxonomy_term_delete(context=None, data_dict=None):
     There is a shortcut where this will not be called for sysadmins
     """
     return {'success': False}
-

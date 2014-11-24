@@ -4,6 +4,7 @@ from ckanext.taxonomy.tests.test_helpers import TaxonomyTestCase
 
 from nose.tools import raises
 
+
 class TestCreateTaxonomy(TaxonomyTestCase):
 
     def test_create_valid(self):
@@ -33,7 +34,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
         assert res['name'] == 'a-new-taxonomy', res
         assert res['title'] == data['title'], res
         assert res['id'], res
-
 
     @raises(logic.ValidationError)
     def test_create_invalid_no_uri(self):
@@ -84,7 +84,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
             TestCreateTaxonomy.sysadmin_context,
             {'id': res['id']})
 
-
     @raises(logic.ValidationError)
     def test_create_term_invalid(self):
         # Missing URI
@@ -134,10 +133,7 @@ class TestCreateTaxonomy(TaxonomyTestCase):
         assert res['label'] == data['label'], res
         assert res['uri'] == data['uri'], res
         assert res['id'], res
-        print res['id']
 
         res = logic.get_action('taxonomy_term_create')(
             TestCreateTaxonomy.sysadmin_context,
             data)
-
-        print res['id']

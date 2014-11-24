@@ -5,6 +5,7 @@ from ckanext.taxonomy.tests.test_helpers import TaxonomyTestCase
 
 from nose.tools import raises
 
+
 class TestTreeLogic(TaxonomyTestCase):
 
     def test_gather(self):
@@ -53,7 +54,6 @@ class TestTreeLogic(TaxonomyTestCase):
 
         assert (time.time() - s) < 0.05
 
-
     def test_large_tree(self):
         """
         This test is purely testing performance of the _append_child call
@@ -65,15 +65,14 @@ class TestTreeLogic(TaxonomyTestCase):
 
         s = time.time()
         top_terms = []
-        for x in range( 1, 50):
+        for x in range(1, 50):
             top_terms.append({'id': x, 'parent_id': 0})
 
         all_terms = []
         all_terms.extend(top_terms)
 
         for x in range(1, 100):
-            all_terms.append({'id': 50+x, 'parent_id': randint(1,50)})
-
+            all_terms.append({'id': 50 + x, 'parent_id': randint(1, 50)})
 
         for x in range(1, 100):
             all_terms.append({'id': 150+x, 'parent_id': randint(150, 250)})

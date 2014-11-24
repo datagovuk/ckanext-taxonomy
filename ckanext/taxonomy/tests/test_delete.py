@@ -4,8 +4,8 @@ from ckanext.taxonomy.tests.test_helpers import TaxonomyTestCase
 
 from nose.tools import raises
 
-class TestDeleteTaxonomy(TaxonomyTestCase):
 
+class TestDeleteTaxonomy(TaxonomyTestCase):
 
     def help_create(self, data):
         return logic.get_action('taxonomy_create')(
@@ -35,8 +35,9 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
         # Create a term to make sure it is deleted
         term = logic.get_action('taxonomy_term_create')(
             TestDeleteTaxonomy.sysadmin_context,
-            { 'name':'test-todelete', 'label': 'test',
-              'uri': 'http://localhost.local/test-todelete', 'taxonomy_id': res['id']})
+            {'name': 'test-todelete', 'label': 'test',
+             'uri': 'http://localhost.local/test-todelete',
+             'taxonomy_id': res['id']})
 
         # Delete the taxonomy
         res = logic.get_action('taxonomy_delete')(
@@ -62,16 +63,16 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
         # Create a term to make sure it is deleted
         term1 = logic.get_action('taxonomy_term_create')(
             TestDeleteTaxonomy.sysadmin_context,
-            { 'name':'test-to-delete', 'label': 'test',
-              'uri': 'http://localhost.local/to-delete',
-              'taxonomy_id': TestDeleteTaxonomy.taxonomies[0]['id']})
+            {'name': 'test-to-delete', 'label': 'test',
+             'uri': 'http://localhost.local/to-delete',
+             'taxonomy_id': TestDeleteTaxonomy.taxonomies[0]['id']})
 
         term2 = logic.get_action('taxonomy_term_create')(
             TestDeleteTaxonomy.sysadmin_context,
-            { 'name':'test2', 'label': 'test2',
-              'uri': 'http://',
-              'taxonomy_id': TestDeleteTaxonomy.taxonomies[0]['id'],
-              'parent_id': term1['id']})
+            {'name': 'test2', 'label': 'test2',
+             'uri': 'http://',
+             'taxonomy_id': TestDeleteTaxonomy.taxonomies[0]['id'],
+             'parent_id': term1['id']})
 
         l = logic.get_action('taxonomy_term_list')(
             TestDeleteTaxonomy.sysadmin_context,
@@ -80,7 +81,7 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
 
         res = logic.get_action('taxonomy_term_delete')(
             TestDeleteTaxonomy.sysadmin_context,
-            { 'id': term1['id'] })
+            {'id': term1['id']})
 
         l = logic.get_action('taxonomy_term_list')(
             TestDeleteTaxonomy.sysadmin_context,
@@ -91,4 +92,4 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
     def test_delete_term_invalid(self):
         res = logic.get_action('taxonomy_term_delete')(
             TestDeleteTaxonomy.sysadmin_context,
-            { 'id': 'non-existant' })
+            {'id': 'non-existant'})

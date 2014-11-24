@@ -6,6 +6,7 @@ from ckanext.taxonomy.models import Taxonomy, TaxonomyTerm
 
 _check_access = logic.check_access
 
+
 @toolkit.side_effect_free
 def taxonomy_list(context, data_dict):
     """
@@ -15,7 +16,7 @@ def taxonomy_list(context, data_dict):
 
     model = context['model']
     items = model.Session.query(Taxonomy).order_by('title')
-    return [ item.as_dict() for item in items.all() ]
+    return [item.as_dict() for item in items.all()]
 
 
 @toolkit.side_effect_free
@@ -68,7 +69,7 @@ def taxonomy_create(context, data_dict):
         name = munge_name(title)
 
     # Check the name has not been used
-    if model.Session.query(Taxonomy).filter(Taxonomy.name==name).count() > 0:
+    if model.Session.query(Taxonomy).filter(Taxonomy.name == name).count() > 0:
         raise logic.ValidationError("Name is already in use")
 
     t = Taxonomy(name=name, title=title, uri=uri)
@@ -123,14 +124,13 @@ def taxonomy_delete(context, data_dict):
         raise logic.NotFound()
 
     terms = model.Session.query(TaxonomyTerm)\
-        .filter(TaxonomyTerm.taxonomy==taxonomy)
+        .filter(TaxonomyTerm.taxonomy == taxonomy)
     map(model.Session.delete, terms.all())
 
     model.Session.delete(taxonomy)
     model.Session.commit()
 
     return taxonomy.as_dict()
-
 
 
 @toolkit.side_effect_free
@@ -151,7 +151,7 @@ def taxonomy_term_list(context, data_dict):
     context['with_terms'] = False
     taxonomy = logic.get_action('taxonomy_show')(context, data_dict)
     terms = model.Session.query(TaxonomyTerm)\
-        .filter(TaxonomyTerm.taxonomy_id==taxonomy['id'])
+        .filter(TaxonomyTerm.taxonomy_id == taxonomy['id'])
 
     if top_only:
         terms = terms.filter(TaxonomyTerm.parent.is_(None))
@@ -185,6 +185,7 @@ def taxonomy_term_tree(context, data_dict):
     terms = [_append_children(term, all_terms) for term in top_terms]
 
     return terms
+
 
 @toolkit.side_effect_free
 def taxonomy_term_show(context, data_dict):
@@ -228,9 +229,11 @@ def taxonomy_term_create(context, data_dict):
     uri = logic.get_or_bust(data_dict, 'uri')
 
     # Check the name has not been used
-    if model.Session.query(TaxonomyTerm).filter(TaxonomyTerm.name==name).count() > 0:
+    if model.Session.query(TaxonomyTerm).\
+            filter(TaxonomyTerm.name == name).count() > 0:
         raise logic.ValidationError("Name is already in use")
-    if model.Session.query(TaxonomyTerm).filter(TaxonomyTerm.uri==uri).count() > 0:
+    if model.Session.query(TaxonomyTerm).\
+            filter(TaxonomyTerm.uri == uri).count() > 0:
         raise logic.ValidationError("URI is already in use")
 
     labels = data_dict.pop('labels', [])
@@ -268,7 +271,6 @@ def taxonomy_term_update(context, data_dict):
     return term.as_dict()
 
 
-
 def taxonomy_term_delete(context, data_dict):
     """
     Deletes a taxonomy term. This call MUST delete all of its children
@@ -280,19 +282,22 @@ def taxonomy_term_delete(context, data_dict):
 
     term = logic.get_action('taxonomy_term_show')(context, data_dict)
 
-    all_terms = logic.get_action('taxonomy_term_list')(context, {'id': term['taxonomy_id']})
+    all_terms = logic.get_action('taxonomy_term_list')(
+        context, {'id': term['taxonomy_id']})
     _append_children(term, all_terms)
 
     # Now we just need to iterate through the tree and gather up IDs
     # to delete....
     ids = _gather(term, 'id')
-    todelete = model.Session.query(TaxonomyTerm).filter(TaxonomyTerm.id.in_(ids))
+    todelete = model.Session.query(TaxonomyTerm).\
+        filter(TaxonomyTerm.id.in_(ids))
 
     if len(ids):
         map(model.Session.delete, todelete)
         model.Session.commit()
 
     return term
+
 
 def _gather(d, key):
     """
@@ -307,7 +312,7 @@ def _gather(d, key):
                 res.append(_gather(c, key))
 
     # Flatten the list before returning it.
-    return reduce(lambda h,t: h+t, res)
+    return reduce(lambda h, t: h+t, res)
 
 
 def _append_children(term, terms):
@@ -315,4 +320,3 @@ def _append_children(term, terms):
 
     for t in term['children']:
         _append_children(t, terms)
-

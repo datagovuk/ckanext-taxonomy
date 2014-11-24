@@ -4,6 +4,7 @@ from ckanext.taxonomy.tests.test_helpers import TaxonomyTestCase
 
 from nose.tools import raises
 
+
 class TestUpdateTaxonomy(TaxonomyTestCase):
 
     def test_update_valid(self):
