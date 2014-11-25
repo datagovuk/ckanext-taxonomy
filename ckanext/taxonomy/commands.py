@@ -150,24 +150,3 @@ class TaxonomyCommand(cli.CkanCommand):
 
         for _, child in node.narrower.iteritems():
             self._add_node(tx, child, node_id, depth+1)
-
-        """
-
-        x = concepts['http://unstats.un.org/unsd/cr/references/cofog/version1/03']
-        print "altLabel", x.altLabel
-        print "broader", x.broader
-        print "collections", x.collections
-        print "definition", x.definition
-        print "metadata", x.metadata
-        print "narrower", x.narrower
-        print "notation", x.notation
-        print "prefLabel", x.prefLabel.encode('utf-8')
-        print "related", x.related
-        print "schemes", x.schemes
-        print "synonyms", x.synonyms
-        print "uri", x.uri
-
-        ['altLabel', 'broader', 'collections', 'definition',
-        'metadata', 'narrower', 'notation', 'prefLabel',
-        'related', 'schemes', 'synonyms', 'uri']
-        """
