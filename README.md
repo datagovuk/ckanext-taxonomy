@@ -39,7 +39,10 @@ nosetests . --with-pylons=test-core.ini
 
 ## Importing a SKOS document
 
-TBC
+```
+paster taxonomy load --filename COFOG.rdf --name cofog  \
+    --title cofog --uri "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4"
+```
 
 ## Removing taxonomy
 
