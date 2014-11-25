@@ -1,5 +1,8 @@
 import logging
 
+import rdflib
+import skos
+
 import ckan.lib.cli as cli
 
 log = logging.getLogger(__name__)
@@ -16,13 +19,14 @@ class TaxonomyCommand(cli.CkanCommand):
         paster taxonomy cleanup
 
         # Loading a taxonomy
-        paster taxonomy load --url URL --name NAME
-        paster taxonomy load --filename FILE --name NAME
+        paster taxonomy load --url URL --name NAME --title TITLE
+        paster taxonomy load --filename FILE --name NAME --title TITLE
 
         Where:
             URL  is the url to a SKOS document
             FILE is the local path to a SKOS document
-            NAME is the name of the taxonomy
+            NAME is the short-name of the taxonomy
+            TITLE is the title of the taxonomy
 
     '''
     summary = __doc__.split('\n')[0]
@@ -35,6 +39,8 @@ class TaxonomyCommand(cli.CkanCommand):
                                help='URL to a resource')
         self.parser.add_option('--name', dest='name', default=None,
                                help='Name of the taxonomy to work with')
+        self.parser.add_option('--title', dest='title', default=None,
+                               help='Title of the taxonomy')
 
         super(TaxonomyCommand, self).__init__(name)
 
@@ -76,3 +82,40 @@ class TaxonomyCommand(cli.CkanCommand):
             print "No NAME provided and it is required"
             print self.usage
             return
+
+        graph = rdflib.Graph()
+        result = graph.parse(url or filename)
+        loader = skos.RDFLoader(graph, max_depth=1, lang='en')
+        loader.flat = True
+
+        concepts = loader.getConcepts()
+
+        top_level = []
+        for _, v in concepts.iteritems():
+            if v.broader:
+                top_level.append(v)
+
+        print len(top_level)
+        for t in top_level:
+            print t.prefLabel.encode('utf-8')
+
+        """
+
+        x = concepts['http://unstats.un.org/unsd/cr/references/cofog/version1/03']
+        print "altLabel", x.altLabel
+        print "broader", x.broader
+        print "collections", x.collections
+        print "definition", x.definition
+        print "metadata", x.metadata
+        print "narrower", x.narrower
+        print "notation", x.notation
+        print "prefLabel", x.prefLabel.encode('utf-8')
+        print "related", x.related
+        print "schemes", x.schemes
+        print "synonyms", x.synonyms
+        print "uri", x.uri
+
+        ['altLabel', 'broader', 'collections', 'definition',
+        'metadata', 'narrower', 'notation', 'prefLabel',
+        'related', 'schemes', 'synonyms', 'uri']
+        """

@@ -19,7 +19,13 @@ setup(
     zip_safe=False,
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['ckanext', 'ckanext.taxonomy'],
-
+    install_requires=[
+        'rdflib==4.1.2',
+        'python-skos==0.1.1'
+    ],
+    dependency_links=[
+        'git+https://github.com/datagovuk/python-skos.git#egg=python-skos-0.1.1'
+    ],
     entry_points= {
     'paste.paster_command': [
         'taxonomy = ckanext.taxonomy.commands:TaxonomyCommand',

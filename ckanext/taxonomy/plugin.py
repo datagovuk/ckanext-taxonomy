@@ -15,14 +15,17 @@ class TaxonomyPlugin(p.SingletonPlugin):
     p.implements(p.IActions, inherit=True)
     p.implements(p.IAuthFunctions, inherit=True)
 
-    def after_map(self, map):
-        """
-        map.connect('stats', '/stats',
-            controller='ckanext.stats.controller:StatsController',
+    def before_map(self, map):
+        ctrl = 'ckanext.taxonomy.controllers:TaxonomyController'
+        map.connect('taxonomies_index', '/taxonomies',
+            controller=ctrl,
             action='index')
-        map.connect('stats_action', '/stats/{action}',
-            controller='ckanext.stats.controller:StatsController')
-        """
+        map.connect('taxonomies_show', '/taxonomies/:name',
+            controller=ctrl,
+            action='show')
+        return map
+
+    def after_map(self, map):
         return map
 
     def update_config(self, config):

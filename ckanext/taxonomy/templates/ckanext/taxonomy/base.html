@@ -1,0 +1,26 @@
+{% extends "page.html" %}
+
+{% block breadcrumb_content %}
+  <li>{{ h.nav_link(_('Datasets'), controller='package', action='search') }}</li>
+  <li class="active">{{ h.nav_link(_('Taxonomies'), controller='ckanext.taxonomy.controllers:TaxonomyController', action='index') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      <h1 class="page-heading">{% block page_heading %}{% endblock %}</h1>
+      {% block page_content %}{% endblock %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block secondary_content %}
+  <section class="module module-narrow">
+    <h2 class="module-heading"><i class="icon-info-sign"></i> {{ _('What are taxonomies?') }}</h2>
+    <div class="module-content">
+      {% trans %}
+        <p>sdsd</p>
+      {% endtrans %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "page.html" %}
+
+{% block breadcrumb_content %}
+  <li>{{ h.nav_link(_('Datasets'), controller='package', action='search') }}</li>
+  <li class="active">{{ h.nav_link(_('Taxonomies'), controller='ckanext.taxonomy.controllers:TaxonomyController', action='index') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+
+<h1>Taxonomies</h1>
+<ul>
+    {% for tax in c.taxonomies %}
+    <li>
+        <a href="/taxonomies/{{tax.name}}">{{tax.title}}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block secondary_content %}
+{% endblock %}

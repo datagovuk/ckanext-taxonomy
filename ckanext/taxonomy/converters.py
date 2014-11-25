@@ -26,13 +26,17 @@ def taxonomy_terms_to_dicts(value, context):
         return None
 
     try:
+
         obj = json.loads(value)
         if isinstance(obj, list):
             retval = logic.get_action('taxonomy_term_show_bulk')(
                 context,
                 {'uris': obj})
         else:
-            retval = [logic.get_action('taxonomy_term_show')(context, {'uri': value})]
+            retval = [logic.get_action('taxonomy_term_show')(
+                context,
+                {'uri': value})]
+
     except logic.ValidationError:
         return None
     except ValueError:
