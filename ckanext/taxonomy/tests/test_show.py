@@ -65,6 +65,33 @@ class TestShowTaxonomy(TaxonomyTestCase):
             {'id': 'non-extistent'})
         assert res['id'], res
 
+    def test_term_bulk(self):
+        names = ['bulk-one', 'bulk-two']
+        for n in names:
+            data = {
+                'name': n,
+                'label': n,
+                'uri': 'http://localhost.local/%s' % n,
+                'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
+                'labels': []
+            }
+            res = logic.get_action('taxonomy_term_create')(
+                TestShowTaxonomy.sysadmin_context,
+                data)
+
+        bulk = logic.get_action('taxonomy_term_show_bulk')(
+            TestShowTaxonomy.sysadmin_context,
+            {'uris': ['http://localhost.local/%s' % n for n in names]})
+
+        assert bulk[0]['name'] in names
+        assert bulk[1]['name'] in names
+        assert len(bulk) == 2
+
+        for n in names:
+            res = logic.get_action('taxonomy_term_delete')(
+                TestShowTaxonomy.sysadmin_context,
+                {'id': n})
+
     def test_term_list(self):
         total = logic.get_action('taxonomy_term_list')(
             TestShowTaxonomy.sysadmin_context,
