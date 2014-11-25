@@ -137,7 +137,7 @@ class TaxonomyCommand(cli.CkanCommand):
         import ckan.logic as logic
         import ckan.lib.munge as munge
 
-        print '\t' * depth, node.prefLabel.encode('utf-8')
+        print '   ' * depth, node.prefLabel.encode('utf-8')
         nd = logic.get_action('taxonomy_term_create')(self.context,  {
             'label': node.prefLabel.encode('utf-8'),
             'name': munge.munge_name(node.prefLabel.encode('utf-8')),
@@ -146,6 +146,7 @@ class TaxonomyCommand(cli.CkanCommand):
             'parent_id': parent
         })
         node_id = nd['id']
+
 
         for _, child in node.narrower.iteritems():
             self._add_node(tx, child, node_id, depth+1)

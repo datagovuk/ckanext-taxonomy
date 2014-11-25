@@ -39,8 +39,23 @@ nosetests . --with-pylons=test-core.ini
 
 ## Importing a SKOS document
 
+----
+
+**WARNING**: Importing will currently delete an existing taxonomy if it exists with the same name.  If you are using term uris in your schema this shouldn't be a problem if you are copying the same taxonomy over the top.
+
+----
+
+Importing from a file ...
+
 ```
 paster taxonomy load --filename COFOG.rdf --name cofog  \
+    --title cofog --uri "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4"
+```
+
+Importing from a url ...
+
+```
+paster taxonomy load --url http://..../COFOG.rdf --name cofog  \
     --title cofog --uri "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4"
 ```
 
