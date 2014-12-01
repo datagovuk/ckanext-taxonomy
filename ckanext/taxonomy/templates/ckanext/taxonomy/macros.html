@@ -2,7 +2,7 @@
 
 {% macro term_tree_html(term) %}
     <li>
-        <strong>{{term.label}}</strong> - {{term.uri}}
+        <a href="{{term.uri}}">{{term.label}}</a>
         {% if term.children %}
             <ul>
                 {% for t in term.children %}

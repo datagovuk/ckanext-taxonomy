@@ -1,6 +1,11 @@
 {% extends "page.html" %}
 {% import "/ckanext/taxonomy/macros.html" as m %}
 
+{% block scripts %}
+    {{super()}}
+    <script type="text/javascript" src="/scripts/jquery.jstree.js"></script>
+    <script type="text/javascript" src="/scripts/taxonomy.js"></script>
+{% endblock %}
 
 {% block breadcrumb_content %}
   <li>{{ h.nav_link(_('Datasets'), controller='package', action='search') }}</li>
@@ -12,11 +17,17 @@
 
     <h1>{{c.taxonomy.title}}</h1>
 
-    <ul>
-    {% for t in c.terms %}
-        {{ m.term_tree_html(t) }}
-    {% endfor %}
-    </ul>
+
+    <div class="col-md-6">
+        <div id="tree" class="jstree-no-icons" style="display:none;">
+            <ul>
+            {% for t in c.terms %}
+                {{ m.term_tree_html(t) }}
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block secondary_content %}
