@@ -1,3 +1,5 @@
+CollapsibleLists.apply();
+
 
 $("#tree").jstree({
     "plugins" : ["themes","html_data","ui","crrm"],

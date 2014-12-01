@@ -97,8 +97,10 @@ class TaxonomyCommand(cli.CkanCommand):
 
         graph = rdflib.Graph()
         result = graph.parse(url or filename)
-        loader = skos.RDFLoader(graph, max_depth=1,
-                                flat=True, lang=self.options.lang)
+        loader = skos.RDFLoader(graph,
+                                max_depth=float('inf'),
+                                flat=True,
+                                lang=self.options.lang)
 
         concepts = loader.getConcepts()
 

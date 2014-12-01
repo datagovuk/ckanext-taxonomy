@@ -2,11 +2,27 @@
 
 {% macro term_tree_html(term) %}
     <li class="facet-option">
-        <a href="{{term.uri}}">{{term.label}}</a>
+        <a href="javascript:0">{{term.label}}</a>
         {% if term.children %}
             <ul>
                 {% for t in term.children %}
                     {{term_tree_html(t)}}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+
+{% macro term_tree_checkbox_html(term) %}
+    <li class="facet-option">
+        <input type="checkbox"></input>
+
+        <a href="javascript:0">{{term.label}}</a>
+        {% if term.children %}
+            <ul>
+                {% for t in term.children %}
+                    {{term_tree_checkbox_html(t)}}
                 {% endfor %}
             </ul>
         {% endif %}

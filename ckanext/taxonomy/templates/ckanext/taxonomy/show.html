@@ -5,6 +5,7 @@
     {{super()}}
     <script type="text/javascript" src="/scripts/jquery.jstree.js"></script>
     <script type="text/javascript" src="/scripts/menu-aim.js"></script>
+    <script type="text/javascript" src="/scripts/collapsible.js"></script>
     <script type="text/javascript" src="/scripts/taxonomy.js"></script>
 {% endblock %}
 
@@ -104,6 +105,38 @@
         {% endfor %}
         </div>
     </div>
+
+    <div class="clearfix"></div>
+
+    <hr/>
+    <div style='background-color: #d0d0d0; padding: 20px; margin-bottom: 10px;'>
+        <h2>Simple collapsible lists</h2>
+
+        <p>
+            <strong>Pros:</strong>
+            <ul>
+                <li>Simple and small code</li>
+                <li>More control over styling</li>
+            </ul>
+        </p>
+        <p>
+            <strong>Cons:</strong>
+            <ul>
+                <li>Clicking is used for navigation through the tree, will need another way to select the item</li>
+            </ul>
+        </p>
+    </div>
+    <div class="col-md-3">
+        <div>
+            <ul class="collapsibleList">
+            {% for t in c.terms %}
+                {{ m.term_tree_checkbox_html(t) }}
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
 {% endblock %}
 
 {% block secondary_content %}
