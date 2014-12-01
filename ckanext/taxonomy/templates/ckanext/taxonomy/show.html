@@ -1,4 +1,6 @@
 {% extends "page.html" %}
+{% import "/ckanext/taxonomy/macros.html" as m %}
+
 
 {% block breadcrumb_content %}
   <li>{{ h.nav_link(_('Datasets'), controller='package', action='search') }}</li>
@@ -8,9 +10,15 @@
 
 {% block primary_content %}
 
-<h1>{{c.taxonomy.title}}</h1>
+    <h1>{{c.taxonomy.title}}</h1>
 
+    <ul>
+    {% for t in c.terms %}
+        {{ m.term_tree_html(t) }}
+    {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block secondary_content %}
 {% endblock %}
+

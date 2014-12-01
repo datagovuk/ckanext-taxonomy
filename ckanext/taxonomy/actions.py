@@ -1,3 +1,13 @@
+"""
+    :type groups: list of dictionaries
+    :param owner_org: the id of the dataset's owning organization, see
+
+   :returns: the newly created dataset (unless 'return_id_only' is set to True
+              in the context, in which case just the dataset id will
+              be returned)
+    :rtype: dictionary
+"""
+
 import json
 
 import ckan.plugins.toolkit as toolkit
@@ -11,8 +21,10 @@ _check_access = logic.check_access
 
 @toolkit.side_effect_free
 def taxonomy_list(context, data_dict):
-    """
-    List all of the known taxonomies
+    """ List all of the known taxonomies
+
+    :returns: A list of taxonomies currently installed
+    :rtype: A list of dictionaries.
     """
     _check_access('taxonomy_list', context, data_dict)
 
@@ -23,12 +35,14 @@ def taxonomy_list(context, data_dict):
 
 @toolkit.side_effect_free
 def taxonomy_show(context, data_dict):
-    """
-    Shows a single taxonomy.
+    """ Shows a single taxonomy.
 
     The id (or name) of the taxonomy is required as an id
     parameter in the data_dict. Alternatively taxonomies can
     be found using their uri field.
+
+    :returns: A single taxonomy
+    :rtype: A dictionary
     """
     _check_access('taxonomy_show', context, data_dict)
 
@@ -58,6 +72,9 @@ def taxonomy_create(context, data_dict):
     title is required, name will be generated from title if no name is
     provided but if this clashes it will generate an error (i.e. better
     to set the name yourself).
+
+    :returns: The newly created taxonomy
+    :rtype: A dictionaries.
     """
     _check_access('taxonomy_create', context, data_dict)
 
@@ -86,6 +103,9 @@ def taxonomy_update(context, data_dict):
     Updates an existing taxonomy.
 
     title, name and uri are required
+
+    :returns: The newly updated taxonomy
+    :rtype: A dictionary
     """
     _check_access('taxonomy_update', context, data_dict)
 
@@ -114,6 +134,9 @@ def taxonomy_delete(context, data_dict):
     """
     Delete the specific taxonomy, and as a result, all of the terms within
     it.
+
+    :returns: The newly deleted taxonomy
+    :rtype: A dictionary
     """
     _check_access('taxonomy_delete', context, data_dict)
 
@@ -142,6 +165,9 @@ def taxonomy_term_list(context, data_dict):
 
     If 'language' is specified in data_dict (default is en) then
     it will return the label for that language.
+
+    :returns: The list of terms for the specified taxonomy
+    :rtype: A list of term dictionaries
     """
     _check_access('taxonomy_term_list', context, data_dict)
 
@@ -169,6 +195,9 @@ def taxonomy_term_tree(context, data_dict):
 
     If 'language' is specified in data_dict (default is en) then
     it will return the label for that language.
+
+    :returns: The taxonomy's terms as a tree structure
+    :rtype: A list of dictionaries.
     """
     _check_access('taxonomy_term_tree', context, data_dict)
 
@@ -177,7 +206,7 @@ def taxonomy_term_tree(context, data_dict):
     context['with_terms'] = False
     taxonomy = logic.get_action('taxonomy_show')(context, data_dict)
 
-    all_terms = taxonomy_term_list(context, data_dict)
+    all_terms = logic.get_action('taxonomy_term_list')(context, data_dict)
     top_terms = [t for t in all_terms if t['parent_id'] is None]
 
     # We definitely don't want each term to be responsible for loading
@@ -194,6 +223,9 @@ def taxonomy_term_show(context, data_dict):
     """
     Shows a single taxonomy term and its children, the taxonomy id is not
     required, just a term_id.
+
+    :returns: A single taxonomy term
+    :rtype: A dictionary
     """
     _check_access('taxonomy_term_show', context, data_dict)
     model = context['model']
@@ -220,6 +252,9 @@ def taxonomy_term_show_bulk(context, data_dict):
     """
     When given a list of URIs this function will return a list
     of taxonomy terms.
+
+    :returns: All of the terms found from the supplied uris
+    :rtype: A list of dictionaries
     """
     _check_access('taxonomy_term_show', context, data_dict)
     model = context['model']
@@ -234,8 +269,10 @@ def taxonomy_term_show_bulk(context, data_dict):
 
 
 def taxonomy_term_create(context, data_dict):
-    """
-    Allows for the creation of a taxonomy term.
+    """ Allows for the creation of a mew taxonomy term.
+
+    :returns: The newly updated term
+    :rtype: A dictionary
     """
     _check_access('taxonomy_term_create', context, data_dict)
     model = context['model']
@@ -267,8 +304,10 @@ def taxonomy_term_create(context, data_dict):
 
 
 def taxonomy_term_update(context, data_dict):
-    """
-    Allows a taxonomy term to be updated.
+    """ Allows a taxonomy term to be updated.
+
+    :returns: The newly updated term
+    :rtype: A dictionary
     """
     _check_access('taxonomy_term_update', context, data_dict)
     model = context['model']
@@ -292,10 +331,12 @@ def taxonomy_term_update(context, data_dict):
 
 
 def taxonomy_term_delete(context, data_dict):
-    """
-    Deletes a taxonomy term. This call MUST delete all of its children
-    which is a tad scary but there's no way to easily prune this part of
-    the tree and re-attach it.
+    """ Deletes a taxonomy term.
+
+    This call deletes all of its child terms (those in narrower scope).
+
+    :returns: The newly deleted term
+    :rtype: A dictionary
     """
     _check_access('taxonomy_term_delete', context, data_dict)
     model = context['model']
@@ -340,3 +381,5 @@ def _append_children(term, terms):
 
     for t in term['children']:
         _append_children(t, terms)
+
+    return term

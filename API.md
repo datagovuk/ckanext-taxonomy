@@ -3,7 +3,7 @@
 
 The taxonomy API, as well as being available through the logic layer in an extension, is also available via version 3 of the CKAN API.
 
-Calls to the CKAN API should be of the form /api/3/action/ACTION where ACTION is one of the items below.  Some of the API calls accept GET requests, in which case arguments can be provided as query parameters.  
+Calls to the CKAN API should be of the form /api/3/action/ACTION where ACTION is one of the items below.  Some of the API calls accept GET requests, in which case arguments can be provided as query parameters.
 
 ## Taxonomy object
 
@@ -13,7 +13,7 @@ Calls to the CKAN API should be of the form /api/3/action/ACTION where ACTION is
 
 
 ## taxonomy_list
-**Methods** 
+**Methods**
 
 GET, POST
 
@@ -31,17 +31,18 @@ A list of taxonomies.
 
 
 ## taxonomy_show
-**Methods** 
+**Methods**
 
 GET, POST
 
 **Description**
 
-Shows a single taxonomy, without all of the terms if contains
+Shows a single taxonomy, without all of the terms it contains
 
 **Arguments**
 
-id - the id or short-name of the taxonomy to show.
+id - The id or short-name of the taxonomy to show, or
+uri - The uri of the taxonomy to show
 
 **Return value**
 
@@ -49,22 +50,22 @@ A single taxonomy
 
 
 ## taxonomy_create
-**Methods** 
+**Methods**
 
 POST
 
 **Description**
 
 Creates a new taxonomy. Terms are not created here, they must be
-created using taxonomy_term_create with the taxonomy id from this
+created using taxonomy\_term\_create with the taxonomy id from this
 call provided.
 
 **Arguments**
 
 title - The title for the new taxonomy
 
-name - The short-name for the new taxonomy.  If this is not specified 
-then it is generated from the title.  This may result in errors if the 
+name - The short-name for the new taxonomy.  If this is not specified
+then it is generated from the title.  This may result in errors if the
 name is already in use. It is suggested you supply the name.
 
 uri - The URI where the taxonomy is defined.  For SKOS documents this should be the URI where the document lives.
@@ -75,7 +76,7 @@ The newly created taxonomy.
 
 
 ## taxonomy_delete
-**Methods** 
+**Methods**
 
 POST
 
@@ -89,7 +90,7 @@ The details of the taxonomy that has just been deleted.
 
 
 ## taxonomy_term_list
-**Methods** 
+**Methods**
 
 GET, POST
 
@@ -109,7 +110,7 @@ A list of terms.
 
 
 ## taxonomy_term_tree
-**Methods** 
+**Methods**
 
 GET, POST
 
@@ -131,7 +132,7 @@ The terms for the taxonomy in a tree structure.  Be aware that a taxonomy may ha
 
 
 ## taxonomy_term_show
-**Methods** 
+**Methods**
 
 GET, POST
 
@@ -145,7 +146,7 @@ GET, POST
 
 
 ## taxonomy_term_create
-**Methods** 
+**Methods**
 
 GET, POST
 
@@ -163,7 +164,7 @@ label - A default label for the term
 
 uri - A URI describing the term (optional)
 
-labels - A list of dictionaries where each dictionary contains a ```label``` and a ```language``` key. 
+labels - A list of dictionaries where each dictionary contains a ```label``` and a ```language``` key.
 
 **Return value**
 
@@ -171,7 +172,7 @@ The newly created term
 
 
 ## taxonomy_term_update
-**Methods** 
+**Methods**
 
 GET, POST
 
@@ -184,7 +185,7 @@ GET, POST
 
 
 ## taxonomy_term_delete
-**Methods** 
+**Methods**
 
 GET, POST
 

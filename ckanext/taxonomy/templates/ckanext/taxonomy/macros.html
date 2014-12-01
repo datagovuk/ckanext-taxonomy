@@ -1,0 +1,14 @@
+
+
+{% macro term_tree_html(term) %}
+    <li>
+        <strong>{{term.label}}</strong> - {{term.uri}}
+        {% if term.children %}
+            <ul>
+                {% for t in term.children %}
+                    {{term_tree_html(t)}}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
