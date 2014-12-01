@@ -1,7 +1,7 @@
 
 
 {% macro term_tree_html(term) %}
-    <li>
+    <li class="facet-option">
         <a href="{{term.uri}}">{{term.label}}</a>
         {% if term.children %}
             <ul>

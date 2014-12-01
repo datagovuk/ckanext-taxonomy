@@ -4,6 +4,7 @@
 {% block scripts %}
     {{super()}}
     <script type="text/javascript" src="/scripts/jquery.jstree.js"></script>
+    <script type="text/javascript" src="/scripts/menu-aim.js"></script>
     <script type="text/javascript" src="/scripts/taxonomy.js"></script>
 {% endblock %}
 
@@ -18,7 +19,27 @@
     <h1>{{c.taxonomy.title}}</h1>
 
 
-    <div class="col-md-6">
+    <div style='background-color: #d0d0d0; padding: 20px; margin-bottom: 10px;'>
+        <h2>Tree navigation</h2>
+
+        <p>
+            <strong>Pros:</strong>
+            <ul>
+                <li>Can be compact</li>
+            </ul>
+        </p>
+        <p>
+            <strong>Cons:</strong>
+            <ul>
+                <li>Will possibly be horrible on mobile to navigate if click-areas not big enough</li>
+                <li>Tree changing height might affect the rest of the page </li>
+                <li>Slight delay in rendering so we don't see the underlying ul</li>
+                <li>Might end up being wider than its container</li>
+            </ul>
+        </p>
+    </div>
+
+    <div class="col-md-4">
         <div id="tree" class="jstree-no-icons" style="display:none;">
             <ul>
             {% for t in c.terms %}
@@ -27,7 +48,62 @@
             </ul>
         </div>
     </div>
+    <div class="clearfix"></div>
 
+    <hr/>
+    <div style='background-color: #d0d0d0; padding: 20px; margin-bottom: 10px;'>
+        <h2>Amazon style menu</h2>
+
+        <p>
+            <strong>Pros:</strong>
+            <ul>
+                <li>Doesn't require navigation</li>
+                <li>Can see 'whole' tree at a glance (3 levels deep)</li>
+            </ul>
+        </p>
+        <p>
+            <strong>Cons:</strong>
+            <ul>
+                <li>Limited control over height of the popover</li>
+                <li>Don't know if, or how, this'll work on mobile</li>
+            </ul>
+        </p>
+    </div>
+
+    <div class="col-md-3" style="display:inline;">
+
+        <style>
+        .popover {
+            width:600px;
+            -webkit-border-top-left-radius: 0px;
+            -webkit-border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            height: auto;
+            overflow: hidden;
+        }
+        </style>
+        <div id="aim" role="menu" class="facet-box-unboxed">
+            <div class="facet-title">{{c.taxonomy.title}}</div>
+        {% for t in c.terms %}
+            <div data-submenu-id="submenu-{{t.name}}" class="facet-option">
+                <a href="#">{{t.label}}</a>
+                <div id="submenu-{{t.name}}" class="popover" style="z-index:1001;display: none; top: -1px; left: 1142px;">
+                    <div class="popover-content" class="facet-box-unboxed">
+                        {% for top in t.children %}
+                        <h4 class="facet-title"  style="margin-top:10px; margin-bottom: 10px">{{top.label}}</h4>
+                            <ul>
+                            {% for child in top.children %}
+                            <li><a href="#" class="">{{child.label}}</a></li>
+                            {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block secondary_content %}
