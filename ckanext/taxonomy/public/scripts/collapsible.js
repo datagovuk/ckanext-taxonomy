@@ -11,72 +11,164 @@ http://creativecommons.org/publicdomain/zero/1.0/legalcode
 
 */
 
-var CollapsibleLists=new function(){
-this.apply=function(_1){
-var _2=document.getElementsByTagName("ul");
-for(var _3=0;_3<_2.length;_3++){
-if(_2[_3].className.match(/(^| )collapsibleList( |$)/)){
-this.applyTo(_2[_3],true);
-if(!_1){
-var _4=_2[_3].getElementsByTagName("ul");
-for(var _5=0;_5<_4.length;_5++){
-_4[_5].className+=" collapsibleList";
-}
-}
-}
-}
-};
-this.applyTo=function(_6,_7){
-var _8=_6.getElementsByTagName("li");
-for(var _9=0;_9<_8.length;_9++){
-if(!_7||_6==_8[_9].parentNode){
-if(_8[_9].addEventListener){
-_8[_9].addEventListener("mousedown",function(e){
-e.preventDefault();
-},false);
-}else{
-_8[_9].attachEvent("onselectstart",function(){
-event.returnValue=false;
-});
-}
-if(_8[_9].addEventListener){
-_8[_9].addEventListener("click",_a(_8[_9]),false);
-}else{
-_8[_9].attachEvent("onclick",_a(_8[_9]));
-}
-_b(_8[_9]);
-}
-}
-};
-function _a(_c){
-return function(e){
-if(!e){
-e=window.event;
-}
-var _d=(e.target?e.target:e.srcElement);
-while(_d.nodeName!="LI"){
-_d=_d.parentNode;
-}
-if(_d==_c){
-_b(_c);
-}
-};
-};
-function _b(_e){
-var _f=_e.className.match(/(^| )collapsibleListClosed( |$)/);
-var uls=_e.getElementsByTagName("ul");
-for(var _10=0;_10<uls.length;_10++){
-var li=uls[_10];
-while(li.nodeName!="LI"){
-li=li.parentNode;
-}
-if(li==_e){
-uls[_10].style.display=(_f?"block":"none");
-}
-}
-_e.className=_e.className.replace(/(^| )collapsibleList(Open|Closed)( |$)/,"");
-if(uls.length>0){
-_e.className+=" collapsibleList"+(_f?"Open":"Closed");
-}
-};
-}();
+// create the CollapsibleLists object
+var CollapsibleLists =
+    new function(){
+
+      /* Makes all lists with the class 'collapsibleList' collapsible. The
+       * parameter is:
+       *
+       * doNotRecurse - true if sub-lists should not be made collapsible
+       */
+      this.apply = function(doNotRecurse){
+
+        // loop over the unordered lists
+        var uls = document.getElementsByTagName('ul');
+        for (var index = 0; index < uls.length; index ++){
+
+          // check whether this list should be made collapsible
+          if (uls[index].className.match(/(^| )collapsibleList( |$)/)){
+
+            // make this list collapsible
+            this.applyTo(uls[index], true);
+
+            // check whether sub-lists should also be made collapsible
+            if (!doNotRecurse){
+
+              // add the collapsibleList class to the sub-lists
+              var subUls = uls[index].getElementsByTagName('ul');
+              for (var subIndex = 0; subIndex < subUls.length; subIndex ++){
+                subUls[subIndex].className += ' collapsibleList';
+              }
+
+            }
+
+          }
+
+        }
+
+      };
+
+      /* Makes the specified list collapsible. The parameters are:
+       *
+       * node         - the list element
+       * doNotRecurse - true if sub-lists should not be made collapsible
+       */
+      this.applyTo = function(node, doNotRecurse){
+
+        // loop over the list items within this node
+        var lis = node.getElementsByTagName('li');
+        for (var index = 0; index < lis.length; index ++){
+
+          // check whether this list item should be collapsible
+          if (!doNotRecurse || node == lis[index].parentNode){
+
+            // prevent text from being selected unintentionally
+            if (lis[index].addEventListener){
+              lis[index].addEventListener(
+                  'mousedown', function (e){ e.preventDefault(); }, false);
+            }else{
+              lis[index].attachEvent(
+                  'onselectstart', function(){ event.returnValue = false; });
+            }
+
+            // add the click listener
+            if (lis[index].addEventListener){
+              lis[index].addEventListener(
+                  'click', createClickListener(lis[index]), false);
+            }else{
+              lis[index].attachEvent(
+                  'onclick', createClickListener(lis[index]));
+            }
+
+            // close the unordered lists within this list item
+            toggle(lis[index]);
+
+          }
+
+        }
+
+      };
+
+      /* Returns a function that toggles the display status of any unordered
+       * list elements within the specified node. The parameter is:
+       *
+       * node - the node containing the unordered list elements
+       */
+      function createClickListener(node){
+
+        // return the function
+        return function(e){
+
+          // ensure the event object is defined
+          if (!e) e = window.event;
+
+          if (e.target.nodeName == 'INPUT') {
+            return false;
+          }
+
+          // find the list item containing the target of the event
+          var li = (e.target ? e.target : e.srcElement);
+
+          while (li.nodeName != 'LI') li = li.parentNode;
+
+          // If this is actually a leaf node we should toggle
+          // this element. It is a leaf node if there is no ul in the
+          // childnodes
+          var is_leaf = true;
+          for (var i = 0; i < li.childNodes.length; i++ ) {
+              var n = li.childNodes[i];
+              if ( n.nodeName == 'UL') {
+                is_leaf = false;
+                break;
+              }
+          }
+          if (is_leaf) {
+             // toggle the checkbox in this li
+             var inp = $(li).find("input")[0];
+             $(inp).prop("checked", !$(inp).prop("checked"));
+          }
+
+          // toggle the state of the node if it was the target of the event
+          if (li == node) toggle(node);
+
+        };
+
+      }
+
+      /* Opens or closes the unordered list elements directly within the
+       * specified node. The parameter is:
+       *
+       * node - the node containing the unordered list elements
+       */
+      function toggle(node){
+
+        // determine whether to open or close the unordered lists
+        var open = node.className.match(/(^| )collapsibleListClosed( |$)/);
+
+        // loop over the unordered list elements with the node
+        var uls = node.getElementsByTagName('ul');
+        for (var index = 0; index < uls.length; index ++){
+
+          // find the parent list item of this unordered list
+          var li = uls[index];
+          while (li.nodeName != 'LI') li = li.parentNode;
+
+          // style the unordered list if it is directly within this node
+          if (li == node) uls[index].style.display = (open ? 'block' : 'none');
+
+        }
+
+        // remove the current class from the node
+        node.className =
+            node.className.replace(
+                /(^| )collapsibleList(Open|Closed)( |$)/, '');
+
+        // if the node contains unordered lists, set its class
+        if (uls.length > 0){
+          node.className += ' collapsibleList' + (open ? 'Open' : 'Closed');
+        }
+
+      }
+
+    }();

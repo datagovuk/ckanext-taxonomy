@@ -16,7 +16,7 @@
 
 {% macro term_tree_checkbox_html(term) %}
     <li class="facet-option">
-        <input type="checkbox"></input>
+        <input type="checkbox" id="cb_{{term.name}}"></input>
 
         <a href="javascript:0">{{term.label}}</a>
         {% if term.children %}
