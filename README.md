@@ -45,19 +45,34 @@ nosetests . --with-pylons=test-core.ini
 
 ----
 
-Importing from a file ...
+Importing cofog from a file ...
 
 ```
 paster taxonomy load --filename COFOG.rdf --name cofog  \
     --title cofog --uri "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4"
 ```
 
+Importing eurovoc from a file ...
+
+```
+paster taxonomy load --filename eurovoc_skos.rdf --name eurovoc  \
+    --title "EuroVOC" --uri "http://eurovoc.europa.eu/schema"
+```
+
+
 Importing from a url ...
 
 ```
 paster taxonomy load --url http://..../COFOG.rdf --name cofog  \
     --title cofog --uri "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4"
-```
+    ```
+
+## Taxonomies 
+
+CoFoG - http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4
+
+Eurovoc - http://publications.europa.eu/mdr/resource/thesaurus/eurovoc/skos/eurovoc_skos.zip
+
 
 ## Removing taxonomy
 

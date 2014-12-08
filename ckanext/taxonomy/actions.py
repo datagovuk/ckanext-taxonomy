@@ -287,12 +287,18 @@ def taxonomy_term_create(context, data_dict):
     uri = logic.get_or_bust(data_dict, 'uri')
 
     # Check the name has not been used
-    if model.Session.query(TaxonomyTerm).\
-            filter(TaxonomyTerm.name == name).count() > 0:
-        raise logic.ValidationError("Name is already in use")
-    if model.Session.query(TaxonomyTerm).\
-            filter(TaxonomyTerm.uri == uri).count() > 0:
-        raise logic.ValidationError("URI is already in use")
+    name_safe = False
+    appended_num = 0
+    while not name_safe:
+        if model.Session.query(TaxonomyTerm).\
+                filter(TaxonomyTerm.name == name).count() > 0:
+
+            name = name.replace('_%s' % appended_num, '')
+            appended_num += 1
+            name = name + "_%s" % appended_num
+
+        else:
+            name_safe = True
 
     labels = data_dict.pop('labels', [])
     term = TaxonomyTerm(**data_dict)

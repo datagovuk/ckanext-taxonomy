@@ -95,6 +95,7 @@ class TaxonomyCommand(cli.CkanCommand):
             print self.usage
             return
 
+        print "Loading graph"
         graph = rdflib.Graph()
         result = graph.parse(url or filename)
         loader = skos.RDFLoader(graph,
@@ -102,6 +103,7 @@ class TaxonomyCommand(cli.CkanCommand):
                                 flat=True,
                                 lang=self.options.lang)
 
+        print "Processing concepts"
         concepts = loader.getConcepts()
 
         top_level = []
