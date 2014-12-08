@@ -52,7 +52,7 @@ paster taxonomy load --filename COFOG.rdf --name cofog  \
     --title cofog --uri "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4"
 ```
 
-Importing eurovoc from a file ...
+Importing eurovoc from a file ... **warning** this is slow.
 
 ```
 paster taxonomy load --filename eurovoc_skos.rdf --name eurovoc  \
