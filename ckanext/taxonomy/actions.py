@@ -49,11 +49,12 @@ def taxonomy_show(context, data_dict):
     model = context['model']
     id = data_dict.get('id')
     uri = data_dict.get('uri')
+    name = data_dict.get('name')
 
-    if not id and not uri:
-        raise logic.ValidationError("Neither id or uri were provided")
+    if not id and not uri and not name:
+        raise logic.ValidationError("Neither id, name or uri were provided")
 
-    item = Taxonomy.get(id)
+    item = Taxonomy.get(id or name)
     if not item and uri:
         item = Taxonomy.by_uri(uri)
 

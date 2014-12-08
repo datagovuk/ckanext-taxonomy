@@ -14,6 +14,7 @@ class TaxonomyPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IActions, inherit=True)
     p.implements(p.IAuthFunctions, inherit=True)
+    p.implements(p.ITemplateHelpers, inherit=True)
 
     def before_map(self, map):
         ctrl = 'ckanext.taxonomy.controllers:TaxonomyController'
@@ -31,6 +32,23 @@ class TaxonomyPlugin(p.SingletonPlugin):
     def update_config(self, config):
         p.toolkit.add_template_directory(config, 'templates')
         p.toolkit.add_public_directory(config, 'public')
+
+    def get_helpers(self):
+        """
+        A dictionary of extra helpers that will be available to provide
+        taxonomy helpers to the templates.
+        """
+        from ckanext.taxonomy import helpers
+        from inspect import getmembers, isfunction
+
+        helper_dict = {}
+
+        functions_list = [o for o in getmembers(helpers, isfunction)]
+        for name, fn in functions_list:
+            if name[0] != '_':
+                helper_dict[name] = fn
+
+        return helper_dict
 
     def get_actions(self):
         import ckanext.taxonomy.actions as actions
