@@ -26,7 +26,7 @@ To install ckanext-taxonomy, you should follow these steps:
 3. Setup the database for taxonomies
 4.
     ```
-    paster --plugin=ckanext-taxonomy init -c <PATH-TO-CONFIG>
+    paster taxonomy init -c <PATH-TO-CONFIG>
     ```
 
 
