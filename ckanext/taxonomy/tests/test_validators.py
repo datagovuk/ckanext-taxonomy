@@ -53,9 +53,6 @@ class TestValidators(TaxonomyTestCase):
             'label': 'New Term',
             'uri': 'http://localhost.local/newest-term',
             'taxonomy_id': TestValidators.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
         res = logic.get_action('taxonomy_term_create')(
             TestValidators.sysadmin_context,

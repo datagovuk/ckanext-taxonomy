@@ -66,9 +66,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
             'label': 'New Term',
             'uri': 'http://localhost.local/newest-term',
             'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
         res = logic.get_action('taxonomy_term_create')(
             TestCreateTaxonomy.sysadmin_context,
@@ -91,9 +88,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
             'name': 'new-term',
             'label': 'New Term',
             'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
         res = logic.get_action('taxonomy_term_create')(
             TestCreateTaxonomy.sysadmin_context,
@@ -106,34 +100,7 @@ class TestCreateTaxonomy(TaxonomyTestCase):
             'name': 'new-term',
             'uri': 'http://',
             'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
-        res = logic.get_action('taxonomy_term_create')(
-            TestCreateTaxonomy.sysadmin_context,
-            data)
-
-    @raises(logic.ValidationError)
-    def test_create_term_duplicate(self):
-        data = {
-            'name': 'new-term',
-            'label': 'New Term',
-            'uri': 'http://localhost.local',
-            'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
-        }
-        res = logic.get_action('taxonomy_term_create')(
-            TestCreateTaxonomy.sysadmin_context,
-            data)
-
-        assert res['name'] == data['name'], res
-        assert res['label'] == data['label'], res
-        assert res['uri'] == data['uri'], res
-        assert res['id'], res
-
         res = logic.get_action('taxonomy_term_create')(
             TestCreateTaxonomy.sysadmin_context,
             data)

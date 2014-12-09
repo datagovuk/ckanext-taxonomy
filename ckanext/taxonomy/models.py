@@ -31,6 +31,7 @@ class Taxonomy(Base):
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     name = Column(types.UnicodeText, unique=True)
     title = Column(types.UnicodeText)
+    description = Column(types.UnicodeText)
     uri = Column(types.UnicodeText)
 
     def __init__(self, **kwargs):
@@ -56,6 +57,7 @@ class Taxonomy(Base):
             'id': self.id,
             'name': self.name,
             'title': self.title,
+            'description': self.description,
             'uri': self.uri
         }
 
@@ -87,40 +89,10 @@ class TaxonomyTerm(Base):
         primaryjoin="TaxonomyTerm.taxonomy_id==Taxonomy.id",
         backref='terms')
 
-    labels = Column(types.UnicodeText)
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
-
-    def get_label(self, language):
-        """
-        Get the label for this.
-        """
-        labels = self.get_labels()
-        result = (l for l in labels if l['language'] == language)
-        if any(result):
-            return result[0]
-        # Default to English label
-        return self.label
-
-    def get_labels(self):
-        try:
-            lbls = json.loads(self.labels)
-        except:
-            return []
-        return lbls
-
-    def set_labels(self, label_list):
-        """
-        Expected that label_list is a list of dicts that looks like
-        { "label": "", "language": "fr" }
-        """
-        labels = label_list or []
-        try:
-            self.labels = json.dumps(label_list)
-        except:
-            pass
 
     @classmethod
     def get(cls, name_or_id):
@@ -139,13 +111,12 @@ class TaxonomyTerm(Base):
             .filter(TaxonomyTerm.uri == uri)
         return q.first()
 
-    def as_dict(self, language="en"):
+    def as_dict(self):
         d = {
             'id': self.id,
             'name': self.name,
-            'label': self.get_label(language),
+            'label': self.label,
             'uri': self.uri,
-            'labels': self.get_labels(),
             'taxonomy_id': self.taxonomy_id,
             'parent_id': self.parent_id
         }

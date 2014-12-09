@@ -39,9 +39,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
             'label': 'New Term',
             'uri': 'http://localhost.local',
             'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
         res = logic.get_action('taxonomy_term_create')(
             TestShowTaxonomy.sysadmin_context,
@@ -73,7 +70,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
                 'label': n,
                 'uri': 'http://localhost.local/%s' % n,
                 'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
-                'labels': []
             }
             res = logic.get_action('taxonomy_term_create')(
                 TestShowTaxonomy.sysadmin_context,
@@ -103,9 +99,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
             'label': 'New Term',
             'uri': 'http://localhost.local',
             'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
         res = logic.get_action('taxonomy_term_create')(
             TestShowTaxonomy.sysadmin_context,

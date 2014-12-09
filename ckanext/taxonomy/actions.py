@@ -82,6 +82,8 @@ def taxonomy_create(context, data_dict):
     model = context['model']
 
     name = data_dict.get('name')
+    description = data_dict.get('description')
+
     title = logic.get_or_bust(data_dict, 'title')
     uri = logic.get_or_bust(data_dict, 'uri')
 
@@ -92,7 +94,7 @@ def taxonomy_create(context, data_dict):
     if model.Session.query(Taxonomy).filter(Taxonomy.name == name).count() > 0:
         raise logic.ValidationError("Name is already in use")
 
-    t = Taxonomy(name=name, title=title, uri=uri)
+    t = Taxonomy(name=name, title=title, uri=uri, description=description)
     model.Session.add(t)
     model.Session.commit()
 
@@ -116,6 +118,7 @@ def taxonomy_update(context, data_dict):
     name = logic.get_or_bust(data_dict, 'name')
     title = logic.get_or_bust(data_dict, 'title')
     uri = logic.get_or_bust(data_dict, 'uri')
+    description = data_dict.get('description')
 
     tax = Taxonomy.get(id)
     if not tax:
@@ -124,6 +127,7 @@ def taxonomy_update(context, data_dict):
     tax.name = name
     tax.title = title
     tax.uri = uri
+    tax.description = description
 
     model.Session.add(tax)
     model.Session.commit()
@@ -164,9 +168,6 @@ def taxonomy_term_list(context, data_dict):
     """
     Lists all of the taxonomy terms for the given taxonomy.
 
-    If 'language' is specified in data_dict (default is en) then
-    it will return the label for that language.
-
     :returns: The list of terms for the specified taxonomy
     :rtype: A list of term dictionaries
     """
@@ -174,8 +175,6 @@ def taxonomy_term_list(context, data_dict):
 
     model = context['model']
     top_only = context.get('top_only', False)
-
-    language = data_dict.get('language', 'en')
 
     context['with_terms'] = False
     taxonomy = logic.get_action('taxonomy_show')(context, data_dict)
@@ -186,7 +185,7 @@ def taxonomy_term_list(context, data_dict):
         terms = terms.filter(TaxonomyTerm.parent.is_(None))
     terms = terms.order_by(TaxonomyTerm.label).all()
 
-    return [term.as_dict(language) for term in terms]
+    return [term.as_dict() for term in terms]
 
 
 @toolkit.side_effect_free
@@ -285,25 +284,13 @@ def taxonomy_term_create(context, data_dict):
     name = logic.get_or_bust(data_dict, 'name')
     label = logic.get_or_bust(data_dict, 'label')
     uri = logic.get_or_bust(data_dict, 'uri')
+    name = logic.get_or_bust(data_dict, 'name')
 
-    # Check the name has not been used
-    name_safe = False
-    appended_num = 0
-    while not name_safe:
-        if model.Session.query(TaxonomyTerm).\
-                filter(TaxonomyTerm.name == name).count() > 0:
+    if model.Session.query(TaxonomyTerm).\
+            filter(TaxonomyTerm.name == name).count() > 0:
+        raise logic.ValidationError("Term name already used")
 
-            name = name.replace('_%s' % appended_num, '')
-            appended_num += 1
-            name = name + "_%s" % appended_num
-
-        else:
-            name_safe = True
-
-    labels = data_dict.pop('labels', [])
     term = TaxonomyTerm(**data_dict)
-    term.set_labels(labels)
-
     model.Session.add(term)
     model.Session.commit()
 
@@ -329,7 +316,6 @@ def taxonomy_term_update(context, data_dict):
     term.label = data_dict.get('label', term.label)
     term.parent_id = data_dict.get('parent_id', term.parent_id)
     term.uri = logic.get_or_bust(data_dict, 'uri')
-    term.set_labels(data_dict.get('labels', []))
 
     model.Session.add(term)
     model.Session.commit()

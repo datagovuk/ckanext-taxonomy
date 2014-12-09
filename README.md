@@ -4,7 +4,7 @@ The current support for tag vocabularies in CKAN is rather limited, and this ext
 
 * Terms belong to a taxonomy which is a simple named entity
 * Terms can have child terms and parent terms so that they are hierarchichal.
-* Terms have a name, but also a URI, and a title which is the display string and is available in different languages.
+* Terms have a name, but also a URI, and a title which is the display string
 * Terms and taxonomies can be generated from [SKOS](http://www.w3.org/2004/02/skos/specs) data.
 
 Information about the API is available in [API.md](API.md)

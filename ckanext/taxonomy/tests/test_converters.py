@@ -16,13 +16,11 @@ class TestConverters(TaxonomyTestCase):
             'label': 'Converter Test 1',
             'uri': 'http://localhost.local/converter-1',
             'taxonomy_id': TestConverters.taxonomies[0]['id'],
-            'labels': []
         },{
             'name': 'converter-test-2',
             'label': 'Converter Test 2',
             'uri': 'http://localhost.local/converter-2',
             'taxonomy_id': TestConverters.taxonomies[0]['id'],
-            'labels': []
         }]
         for d in data:
             res = logic.get_action('taxonomy_term_create')(

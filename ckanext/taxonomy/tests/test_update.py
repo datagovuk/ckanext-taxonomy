@@ -42,9 +42,6 @@ class TestUpdateTermTaxonomy(TaxonomyTestCase):
             'label': 'New Term',
             'uri': 'http://localhost.local/update-test',
             'taxonomy_id': TestUpdateTermTaxonomy.taxonomies[0]['id'],
-            'labels': [
-                {'name': 'nouvelle mot', 'language': 'fr'}
-            ]
         }
         res = logic.get_action('taxonomy_term_create')(
             TestUpdateTermTaxonomy.sysadmin_context,
