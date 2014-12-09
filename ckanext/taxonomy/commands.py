@@ -141,11 +141,21 @@ class TaxonomyCommand(cli.CkanCommand):
         import ckan.logic as logic
         import ckan.lib.munge as munge
 
+        name = munge.munge_name(node.prefLabel.encode('utf-8'))
+        name = name.replace('--', '-')
+
         print '   ' * depth, node.prefLabel.encode('utf-8')
+
+        description = ''
+        if hasattr(node, 'definition') and node.definition:
+            description = node.definition.encode('utf-8')
+
+
         nd = logic.get_action('taxonomy_term_create')(self.context,  {
             'label': node.prefLabel.encode('utf-8'),
-            'name': munge.munge_name(node.prefLabel.encode('utf-8')),
+            'name': name,
             'uri': node.uri,
+            'description': description,
             'taxonomy_id': tx['id'],
             'parent_id': parent
         })

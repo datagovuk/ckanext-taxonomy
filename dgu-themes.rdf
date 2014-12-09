@@ -5,62 +5,62 @@
 >
     <rdf:Description rdf:about="http://data.gov.uk/themes/Crime">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Statistics on crimes, policing, justice, courts, prisons, offenders, borders, and immigration.</skos:scopeNote>
+        <skos:definition xml:lang="en">Statistics on crimes, policing, justice, courts, prisons, offenders, borders, and immigration.</skos:definition>
         <skos:prefLabel xml:lang="en">Crime &amp; Justice</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Defence">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Statistics on the armed forces, Ministry of Defence, workforce, health &amp; safety and search &amp; rescue.</skos:scopeNote>
+        <skos:definition xml:lang="en">Statistics on the armed forces, Ministry of Defence, workforce, health &amp; safety and search &amp; rescue.</skos:definition>
         <skos:prefLabel xml:lang="en">Defence</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Economy">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Industry and small businesses. Statistics, surveys, economic indicators, import/exports and trade. Excludes government spending transactions &amp; salaries. Excludes household finances</skos:scopeNote>
+        <skos:definition xml:lang="en">Industry and small businesses. Statistics, surveys, economic indicators, import/exports and trade. Excludes government spending transactions &amp; salaries. Excludes household finances</skos:definition>
         <skos:prefLabel xml:lang="en">Economy &amp; Business</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Education">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Data collected from schools, universities and libraries. Students, training, qualifications and the National Curriculum.</skos:scopeNote>
+        <skos:definition xml:lang="en">Data collected from schools, universities and libraries. Students, training, qualifications and the National Curriculum.</skos:definition>
         <skos:prefLabel xml:lang="en">Education</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Mapping">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Administrative boundaries, property addresses, land ownership, aerial photographs, the shape of the seabed and land terrain, general-purpose maps. Excludes maps of any specific topic.</skos:scopeNote>
+        <skos:definition xml:lang="en">Administrative boundaries, property addresses, land ownership, aerial photographs, the shape of the seabed and land terrain, general-purpose maps. Excludes maps of any specific topic.</skos:definition>
         <skos:prefLabel xml:lang="en">Mapping</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Towns">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Housing, urban planning, leisure, waste, energy production, energy consumption (macroscopic), toilets, premises licenses.</skos:scopeNote>
+        <skos:definition xml:lang="en">Housing, urban planning, leisure, waste, energy production, energy consumption (macroscopic), toilets, premises licenses.</skos:definition>
         <skos:prefLabel xml:lang="en">Towns &amp; Cities</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Environment">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Management and measurement of the natural environment. For example: weather, flooding, rivers, air quality, living creatures, geology and agriculture. Excludes urban planning.</skos:scopeNote>
+        <skos:definition xml:lang="en">Management and measurement of the natural environment. For example: weather, flooding, rivers, air quality, living creatures, geology and agriculture. Excludes urban planning.</skos:definition>
         <skos:prefLabel xml:lang="en">Environment</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Government">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Organograms, staff numbers, expenses, staff pay, senior staff meetings, hospitality &amp; gifts, lists of local councillors, department business plans, government buildings. Excludes spending. Excludes services.</skos:scopeNote>
+        <skos:definition xml:lang="en">Organograms, staff numbers, expenses, staff pay, senior staff meetings, hospitality &amp; gifts, lists of local councillors, department business plans, government buildings. Excludes spending. Excludes services.</skos:definition>
         <skos:prefLabel xml:lang="en">Government</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Health">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Measurement of health, health care and social care. Includes medicine performance, hospitals, safety, mortality rates and data on smoking, drugs and alcohol.</skos:scopeNote>
+        <skos:definition xml:lang="en">Measurement of health, health care and social care. Includes medicine performance, hospitals, safety, mortality rates and data on smoking, drugs and alcohol.</skos:definition>
         <skos:prefLabel xml:lang="en">Health</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Society">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Employment, benefits, household finances, poverty, population, demography, lifestyles, surveys and opinions.</skos:scopeNote>
+        <skos:definition xml:lang="en">Employment, benefits, household finances, poverty, population, demography, lifestyles, surveys and opinions.</skos:definition>
         <skos:prefLabel xml:lang="en">Society</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Spending">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Government spend transactions. Mandated for public bodies (transactions above £25k &amp; GPC card) and local authorities (transactions above £500). Includes grants. Excludes spend totals, budgets and staff pay.</skos:scopeNote>
+        <skos:definition xml:lang="en">Government spend transactions. Mandated for public bodies (transactions above £25k &amp; GPC card) and local authorities (transactions above £500). Includes grants. Excludes spend totals, budgets and staff pay.</skos:definition>
         <skos:prefLabel xml:lang="en">Government Spending</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Transport">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-        <skos:scopeNote xml:lang="en">Airports, roads, freight, electric vehicles, parking, buses, footpaths and travel statistics.</skos:scopeNote>
+        <skos:definition xml:lang="en">Airports, roads, freight, electric vehicles, parking, buses, footpaths and travel statistics.</skos:definition>
         <skos:prefLabel xml:lang="en">Transport</skos:prefLabel>
     </rdf:Description>
 </rdf:RDF>

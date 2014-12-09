@@ -31,7 +31,6 @@ class Taxonomy(Base):
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     name = Column(types.UnicodeText, unique=True)
     title = Column(types.UnicodeText)
-    description = Column(types.UnicodeText)
     uri = Column(types.UnicodeText)
 
     def __init__(self, **kwargs):
@@ -57,7 +56,6 @@ class Taxonomy(Base):
             'id': self.id,
             'name': self.name,
             'title': self.title,
-            'description': self.description,
             'uri': self.uri
         }
 
@@ -73,6 +71,7 @@ class TaxonomyTerm(Base):
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     name = Column(types.UnicodeText)
     label = Column(types.UnicodeText)
+    description = Column(types.UnicodeText)
     uri = Column(types.UnicodeText)
 
     taxonomy_id = Column(types.UnicodeText, ForeignKey('taxonomy.id'),
@@ -116,6 +115,7 @@ class TaxonomyTerm(Base):
             'id': self.id,
             'name': self.name,
             'label': self.label,
+            'description': self.description,
             'uri': self.uri,
             'taxonomy_id': self.taxonomy_id,
             'parent_id': self.parent_id

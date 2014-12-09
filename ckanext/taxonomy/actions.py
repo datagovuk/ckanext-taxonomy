@@ -82,7 +82,6 @@ def taxonomy_create(context, data_dict):
     model = context['model']
 
     name = data_dict.get('name')
-    description = data_dict.get('description')
 
     title = logic.get_or_bust(data_dict, 'title')
     uri = logic.get_or_bust(data_dict, 'uri')
@@ -94,7 +93,7 @@ def taxonomy_create(context, data_dict):
     if model.Session.query(Taxonomy).filter(Taxonomy.name == name).count() > 0:
         raise logic.ValidationError("Name is already in use")
 
-    t = Taxonomy(name=name, title=title, uri=uri, description=description)
+    t = Taxonomy(name=name, title=title, uri=uri)
     model.Session.add(t)
     model.Session.commit()
 
@@ -118,7 +117,6 @@ def taxonomy_update(context, data_dict):
     name = logic.get_or_bust(data_dict, 'name')
     title = logic.get_or_bust(data_dict, 'title')
     uri = logic.get_or_bust(data_dict, 'uri')
-    description = data_dict.get('description')
 
     tax = Taxonomy.get(id)
     if not tax:
@@ -127,7 +125,6 @@ def taxonomy_update(context, data_dict):
     tax.name = name
     tax.title = title
     tax.uri = uri
-    tax.description = description
 
     model.Session.add(tax)
     model.Session.commit()
@@ -285,9 +282,11 @@ def taxonomy_term_create(context, data_dict):
     label = logic.get_or_bust(data_dict, 'label')
     uri = logic.get_or_bust(data_dict, 'uri')
     name = logic.get_or_bust(data_dict, 'name')
+    description = data_dict.get('description')
 
     if model.Session.query(TaxonomyTerm).\
-            filter(TaxonomyTerm.name == name).count() > 0:
+            filter(TaxonomyTerm.name == name).\
+            filter(TaxonomyTerm.taxonomy_id == taxonomy_id ).count() > 0:
         raise logic.ValidationError("Term name already used")
 
     term = TaxonomyTerm(**data_dict)
@@ -316,6 +315,7 @@ def taxonomy_term_update(context, data_dict):
     term.label = data_dict.get('label', term.label)
     term.parent_id = data_dict.get('parent_id', term.parent_id)
     term.uri = logic.get_or_bust(data_dict, 'uri')
+    term.description = data_dict.get('description', '')
 
     model.Session.add(term)
     model.Session.commit()
