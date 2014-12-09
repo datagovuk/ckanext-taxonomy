@@ -24,7 +24,8 @@ To install ckanext-taxonomy, you should follow these steps:
 
 2. Add ```taxonomy``` to your ckan.plugins setting in your ckan.ini file
 3. Setup the database for taxonomies
-4.
+
+
     ```
     paster taxonomy init -c <PATH-TO-CONFIG>
     ```

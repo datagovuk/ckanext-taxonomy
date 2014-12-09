@@ -37,9 +37,7 @@ def taxonomy_list(context, data_dict):
 def taxonomy_show(context, data_dict):
     """ Shows a single taxonomy.
 
-    The id (or name) of the taxonomy is required as an id
-    parameter in the data_dict. Alternatively taxonomies can
-    be found using their uri field.
+    :param id: The name of id of the taxonomy
 
     :returns: A single taxonomy
     :rtype: A dictionary
@@ -70,12 +68,11 @@ def taxonomy_create(context, data_dict):
     created using taxonomy_term_create with the taxonomy id from this
     call.
 
-    title is required, name will be generated from title if no name is
-    provided but if this clashes it will generate an error (i.e. better
-    to set the name yourself).
+    :param owner_org: the id of the dataset's owning organization, see
+
 
     :returns: The newly created taxonomy
-    :rtype: A dictionaries.
+    :rtype: A dictionary.
     """
     _check_access('taxonomy_create', context, data_dict)
 
