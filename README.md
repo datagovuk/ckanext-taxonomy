@@ -45,6 +45,13 @@ nosetests . --with-pylons=test-core.ini
 
 ----
 
+Import DGU themes (rdf in repo)
+
+```
+paster taxonomy load --filename dgu-themes.rdf --name dgu --title "DGU Themes" \
+    --uri "http://data.gov.uk/themes"
+```
+
 Importing cofog from a file ...
 
 ```
