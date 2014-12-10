@@ -35,7 +35,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
 
     def test_show_term_valid(self):
         data = {
-            'name': 'new-term',
             'label': 'New Term',
             'uri': 'http://localhost.local',
             'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
@@ -66,7 +65,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
         names = ['bulk-one', 'bulk-two']
         for n in names:
             data = {
-                'name': n,
                 'label': n,
                 'uri': 'http://localhost.local/%s' % n,
                 'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
@@ -79,14 +77,14 @@ class TestShowTaxonomy(TaxonomyTestCase):
             TestShowTaxonomy.sysadmin_context,
             {'uris': ['http://localhost.local/%s' % n for n in names]})
 
-        assert bulk[0]['name'] in names
-        assert bulk[1]['name'] in names
+        for i, n in enumerate(names):
+            assert n in bulk[i]['uri'], bulk[0]
         assert len(bulk) == 2
 
         for n in names:
             res = logic.get_action('taxonomy_term_delete')(
                 TestShowTaxonomy.sysadmin_context,
-                {'id': n})
+                {'uri': 'http://localhost.local/%s' % n})
 
     def test_term_list(self):
         total = logic.get_action('taxonomy_term_list')(
@@ -95,7 +93,6 @@ class TestShowTaxonomy(TaxonomyTestCase):
         assert len(total) == 0, total
 
         data = {
-            'name': 'new-term',
             'label': 'New Term',
             'uri': 'http://localhost.local',
             'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],

@@ -69,7 +69,6 @@ class TaxonomyTerm(Base):
     __tablename__ = 'taxonomy_term'
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    name = Column(types.UnicodeText)
     label = Column(types.UnicodeText)
     description = Column(types.UnicodeText)
     uri = Column(types.UnicodeText)
@@ -94,13 +93,13 @@ class TaxonomyTerm(Base):
             setattr(self, k, v)
 
     @classmethod
-    def get(cls, name_or_id):
+    def get(cls, uri_or_id):
         q = model.Session.query(TaxonomyTerm)\
-            .filter(TaxonomyTerm.name == name_or_id)
+            .filter(TaxonomyTerm.uri == uri_or_id)
         obj = q.first()
         if not obj:
             q = model.Session.query(TaxonomyTerm)\
-                .filter(TaxonomyTerm.id == name_or_id)
+                .filter(TaxonomyTerm.id == uri_or_id)
             obj = q.first()
         return obj
 
@@ -113,7 +112,6 @@ class TaxonomyTerm(Base):
     def as_dict(self):
         d = {
             'id': self.id,
-            'name': self.name,
             'label': self.label,
             'description': self.description,
             'uri': self.uri,

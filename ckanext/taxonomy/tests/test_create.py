@@ -62,7 +62,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
 
     def test_create_term_valid(self):
         data = {
-            'name': 'new-term-test',
             'label': 'New Term',
             'uri': 'http://localhost.local/newest-term',
             'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
@@ -71,7 +70,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
             TestCreateTaxonomy.sysadmin_context,
             data)
 
-        assert res['name'] == data['name'], res
         assert res['label'] == data['label'], res
         assert res['uri'] == data['uri'], res
         assert res['id'], res
@@ -85,7 +83,6 @@ class TestCreateTaxonomy(TaxonomyTestCase):
     def test_create_term_invalid(self):
         # Missing URI
         data = {
-            'name': 'new-term',
             'label': 'New Term',
             'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
         }
@@ -95,9 +92,8 @@ class TestCreateTaxonomy(TaxonomyTestCase):
 
     @raises(logic.ValidationError)
     def test_create_term_invalid_label(self):
-        # Missing URI
+        # Missing Label
         data = {
-            'name': 'new-term',
             'uri': 'http://',
             'taxonomy_id': TestCreateTaxonomy.taxonomies[0]['id'],
         }

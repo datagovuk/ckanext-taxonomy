@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+  <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+  <!ENTITY dcam 'http://purl.org/dc/dcam/'>
+  <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+  <!ENTITY dc 'http://purl.org/dc/elements/1.1/'>
+  <!ENTITY dcterms 'http://purl.org/dc/terms/'>
+  <!ENTITY dcmitype 'http://purl.org/dc/dcmitype/'>
+  <!ENTITY skos 'http://www.w3.org/2004/02/skos/core#'>
+  <!ENTITY cld 'http://purl.org/cld/terms/'>
+  <!ENTITY cdtype 'http://purl.org/cld/cdtype/'>
+  <!ENTITY freq 'http://purl.org/cld/freq/'>
+  <!ENTITY accmeth 'http://purl.org/cld/accmeth/'>
+  <!ENTITY accpol 'http://purl.org/cld/accpol/'>
+]>
+<rdf:RDF xmlns:rdf="&rdf;"
+	xmlns:rdfs="&rdfs;"
+	xmlns:dcam="&dcam;"
+	xmlns:dc="&dc;"
+	xmlns:dcterms="&dcterms;"
+	xmlns:dcmitype="&dcmitype;"
+	xmlns:skos="&skos;"
+	xmlns:cld="&cld;"
+	xmlns:cdtype="&cdtype;"
+	xmlns:freq="&freq;"
+	xmlns:accmeth="&accmeth;"
+	xmlns:accpol="&accpol;"
+>
+
+
+<rdf:Description rdf:about="&freq;">
+	<dcterms:title xml:lang="en">The Collection Description Frequency Namespace</dcterms:title>
+	<dcterms:creator rdfs:label="Dublin Core Collection Description Task Group" />
+	<dcterms:modified rdf:datatype="&dcterms;W3CDTF">2013-05-10</dcterms:modified>
+</rdf:Description>
+
+<skos:Concept rdf:about="&freq;triennial">
+	<rdfs:label xml:lang="en">Triennial</rdfs:label>
+	<skos:prefLabel xml:lang="en">Triennial</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs every three years.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;biennial">
+	<rdfs:label xml:lang="en">Biennial</rdfs:label>
+	<skos:prefLabel xml:lang="en">Biennial</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs every two years.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;annual">
+	<rdfs:label xml:lang="en">Annual</rdfs:label>
+	<skos:prefLabel xml:lang="en">Annual</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs once a year.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;semiannual">
+	<rdfs:label xml:lang="en">Semiannual</rdfs:label>
+	<skos:prefLabel xml:lang="en">Semiannual</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs twice a year.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;threeTimesAYear">
+	<rdfs:label xml:lang="en">Three times a year</rdfs:label>
+	<skos:prefLabel xml:lang="en">Three times a year</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs three times a year.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;quarterly">
+	<rdfs:label xml:lang="en">Quarterly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Quarterly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs every three months.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;bimonthly">
+	<rdfs:label xml:lang="en">Bimonthly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Bimonthly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs every two months.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;monthly">
+	<rdfs:label xml:lang="en">Monthly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Monthly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs once a month.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;semimonthly">
+	<rdfs:label xml:lang="en">Semimonthly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Semimonthly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs twice a month.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;biweekly">
+	<rdfs:label xml:lang="en">Biweekly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Biweekly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs every two weeks.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;threeTimesAMonth">
+	<rdfs:label xml:lang="en">Three times a month</rdfs:label>
+	<skos:prefLabel xml:lang="en">Three times a month</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs three times a month.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;weekly">
+	<rdfs:label xml:lang="en">Weekly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Weekly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs once a week.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;semiweekly">
+	<rdfs:label xml:lang="en">Semiweekly</rdfs:label>
+	<skos:prefLabel xml:lang="en">Semiweekly</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs twice a week.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;threeTimesAWeek">
+	<rdfs:label xml:lang="en">Three times a week</rdfs:label>
+	<skos:prefLabel xml:lang="en">Three times a week</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs three times a week.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;daily">
+	<rdfs:label xml:lang="en">Daily</rdfs:label>
+	<skos:prefLabel xml:lang="en">Daily</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs once a day.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;continuous">
+	<rdfs:label xml:lang="en">Continuous</rdfs:label>
+	<skos:prefLabel xml:lang="en">Continuous</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event repeats without interruption.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+<skos:Concept rdf:about="&freq;irregular">
+	<rdfs:label xml:lang="en">Irregular</rdfs:label>
+	<skos:prefLabel xml:lang="en">Irregular</skos:prefLabel>
+	<rdfs:comment xml:lang="en">The event occurs at uneven intervals.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="&freq;" />
+	<rdfs:seeAlso rdf:resource="http://www.loc.gov/marc/holdings/echdcapt.html" />
+	<skos:inScheme rdf:resource="&cld;Frequency" />
+	<dcam:memberOf rdf:resource="&cld;Frequency" />
+</skos:Concept>
+
+
+</rdf:RDF>

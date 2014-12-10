@@ -230,11 +230,7 @@ def taxonomy_term_show(context, data_dict):
     if not id and not uri:
         raise logic.ValidationError("Either id or uri is required")
 
-    if id:
-        term = TaxonomyTerm.get(id)
-    elif uri:
-        term = TaxonomyTerm.by_uri(uri)
-
+    term = TaxonomyTerm.get(id or uri)
     if not term:
         raise logic.NotFound()
 
@@ -274,17 +270,14 @@ def taxonomy_term_create(context, data_dict):
     taxonomy_id = logic.get_or_bust(data_dict, 'taxonomy_id')
     taxonomy = logic.get_action('taxonomy_show')(context, {'id': taxonomy_id})
 
-    # ensure name is in the data_dict
-    name = logic.get_or_bust(data_dict, 'name')
     label = logic.get_or_bust(data_dict, 'label')
     uri = logic.get_or_bust(data_dict, 'uri')
-    name = logic.get_or_bust(data_dict, 'name')
     description = data_dict.get('description')
 
     if model.Session.query(TaxonomyTerm).\
-            filter(TaxonomyTerm.name == name).\
+            filter(TaxonomyTerm.uri == uri).\
             filter(TaxonomyTerm.taxonomy_id == taxonomy_id ).count() > 0:
-        raise logic.ValidationError("Term name already used")
+        raise logic.ValidationError("Term uri already used in this taxonomy")
 
     term = TaxonomyTerm(**data_dict)
     model.Session.add(term)
@@ -308,7 +301,6 @@ def taxonomy_term_update(context, data_dict):
     if not term:
         raise logic.NotFound()
 
-    term.name = data_dict.get('name', term.name)
     term.label = data_dict.get('label', term.label)
     term.parent_id = data_dict.get('parent_id', term.parent_id)
     term.uri = logic.get_or_bust(data_dict, 'uri')
