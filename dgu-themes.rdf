@@ -16,7 +16,7 @@
     <rdf:Description rdf:about="http://data.gov.uk/themes/Economy">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
         <skos:definition xml:lang="en">Industry and small businesses. Statistics, surveys, economic indicators, import/exports and trade. Excludes government spending transactions &amp; salaries. Excludes household finances</skos:definition>
-        <skos:prefLabel xml:lang="en">Economy &amp; Business</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Business &amp; Economy</skos:prefLabel>
     </rdf:Description>
     <rdf:Description rdf:about="http://data.gov.uk/themes/Education">
         <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
