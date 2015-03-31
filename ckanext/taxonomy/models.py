@@ -1,7 +1,7 @@
 import uuid
 import json
 
-from sqlalchemy import Table, Column, MetaData, ForeignKey
+from sqlalchemy import Table, Column, MetaData, ForeignKey, UniqueConstraint
 from sqlalchemy import types, orm
 from sqlalchemy.sql import select
 from sqlalchemy.orm import mapper, relationship
@@ -123,11 +123,53 @@ class TaxonomyTerm(Base):
     def __repr__(self):
         return u"<Taxonomy Term: %s>" % (self.name)
 
+class TaxonomyTermExtra(Base):
+    """
+    """
+    __tablename__ = 'taxonomy_term_extra'
+    __table_args__ = (UniqueConstraint('term_id', 'label'),)
+    id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
+    label = Column(types.UnicodeText)
+    value = Column(types.UnicodeText)
+
+    term_id = Column(types.UnicodeText, ForeignKey('taxonomy_term.id'), nullable=False)
+    term = relationship(
+        'TaxonomyTerm',
+        primaryjoin="TaxonomyTerm.id==TaxonomyTermExtra.term_id",
+        backref='metadata')
+
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    def as_dict(self):
+        d = {
+            'id': self.id,
+            'label': self.label,
+            'value': self.value,
+        }
+        return d
+
+    @classmethod
+    def get(cls, name_or_id):
+        q = model.Session.query(TaxonomyTermExtra).filter(TaxonomyTermExtra.id == name_or_id)
+        obj = q.first()
+        return obj
+
+    @classmethod
+    def by_term_and_label(cls, term_id, label):
+        q = model.Session.query(TaxonomyTermExtra)\
+                        .filter(TaxonomyTermExtra.term_id == term_id)\
+                        .filter(TaxonomyTermExtra.label == label)
+        obj = q.first()
+        return obj
 
 def init_tables():
     Base.metadata.create_all(model.meta.engine)
 
 
 def remove_tables():
+    TaxonomyTermExtra.__table__.drop(model.meta.engine, checkfirst=False)
     TaxonomyTerm.__table__.drop(model.meta.engine, checkfirst=False)
     Taxonomy.__table__.drop(model.meta.engine, checkfirst=False)

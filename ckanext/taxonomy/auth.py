@@ -104,3 +104,51 @@ def taxonomy_term_delete(context=None, data_dict=None):
     There is a shortcut where this will not be called for sysadmins
     """
     return {'success': False}
+
+
+@auth_allow_anonymous_access
+def taxonomy_term_extra_show(context=None, data_dict=None):
+    """
+    Does the user have permission to show the taxonomy term extra.
+    This is always yes.
+    """
+    return {'success': True}
+
+
+@auth_allow_anonymous_access
+def taxonomy_term_extra_list(context=None, data_dict=None):
+    """
+    Does the user have permission to list the taxonomy term extras available.
+    This is always yes.
+    """
+    return {'success': True}
+
+
+@auth_allow_anonymous_access
+def taxonomy_term_extra_create(context=None, data_dict=None):
+    """
+    Can a user create a taxonomy term extra. System administrators only
+
+    There is a shortcut where this will not be called for sysadmins
+    """
+    return {'success': False}
+
+
+@auth_allow_anonymous_access
+def taxonomy_term_extra_update(context=None, data_dict=None):
+    """
+    Can a user update a taxonomy term extra. System administrators only
+
+    There is a shortcut where this will not be called for sysadmins
+    """
+    return {'success': False}
+
+
+@auth_allow_anonymous_access
+def taxonomy_term_extra_delete(context=None, data_dict=None):
+    """
+    Can a user delete a taxonomy term extra. System administrators only
+
+    There is a shortcut where this will not be called for sysadmins
+    """
+    return {'success': False}

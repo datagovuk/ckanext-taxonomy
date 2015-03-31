@@ -14,7 +14,7 @@ import ckan.plugins.toolkit as toolkit
 import ckan.logic as logic
 
 from ckan.lib.munge import munge_name
-from ckanext.taxonomy.models import Taxonomy, TaxonomyTerm
+from ckanext.taxonomy.models import Taxonomy, TaxonomyTerm, TaxonomyTermExtra
 
 _check_access = logic.check_access
 
@@ -341,6 +341,85 @@ def taxonomy_term_delete(context, data_dict):
 
     return term
 
+@toolkit.side_effect_free
+def taxonomy_term_extra_show(context, data_dict):
+    _check_access('taxonomy_term_extra_show', context, data_dict)
+
+    model = context['model']
+
+    id = data_dict.get('id')
+    term_id = data_dict.get('term_id')
+    label = data_dict.get('label')
+
+    if not id and not (term_id and label):
+        raise logic.ValidationError("Neither id, or term_id and label were provided")
+
+    item = TaxonomyTermExtra.get(id)
+    if not item and (term_id and label):
+        item = TaxonomyTermExtra.by_term_and_label(term_id, label)
+
+    if item:
+        return item.as_dict()
+
+@toolkit.side_effect_free
+def taxonomy_term_extra_list(context, data_dict):
+    _check_access('taxonomy_term_extra_list', context, data_dict)
+
+    model = context['model']
+    items = model.Session.query(TaxonomyTermExtra).order_by('label')
+    return [item.as_dict() for item in items.all()]
+
+@toolkit.side_effect_free
+def taxonomy_term_extra_create(context, data_dict):
+    _check_access('taxonomy_term_extra_create', context, data_dict)
+    model = context['model']
+
+    label = logic.get_or_bust(data_dict, 'label')
+    value = logic.get_or_bust(data_dict, 'value')
+    term_id = logic.get_or_bust(data_dict, 'term_id')
+
+    if model.Session.query(TaxonomyTermExtra)\
+            .filter(TaxonomyTermExtra.term_id==term_id)\
+            .filter(TaxonomyTermExtra.label==label)\
+            .count() > 0:
+        raise logic.ValidationError("Extra label already used in this taxonomy term")
+
+    extra = TaxonomyTermExtra(**data_dict)
+    model.Session.add(extra)
+    model.Session.commit()
+
+    return extra.as_dict()
+
+@toolkit.side_effect_free
+def taxonomy_term_extra_update(context, data_dict):
+    _check_access('taxonomy_term_extra_update', context, data_dict)
+    model = context['model']
+
+    id = logic.get_or_bust(data_dict, 'id')
+    extra = TaxonomyTermExtra.get(id)
+    if not extra:
+        raise logic.NotFound()
+
+    extra.label = logic.get_or_bust(data_dict, 'label')
+    extra.value = logic.get_or_bust(data_dict, 'value')
+    extra.term_id = logic.get_or_bust(data_dict, 'term_id')
+
+    model.Session.add(extra)
+    model.Session.commit()
+
+    return extra.as_dict()
+
+@toolkit.side_effect_free
+def taxonomy_term_extra_delete(context, data_dict):
+    _check_access('taxonomy_term_extra_delete', context, data_dict)
+    model = context['model']
+
+    id = logic.get_or_bust(data_dict, 'id')
+
+    extra = TaxonomyTermExtra.get(id)
+
+    model.Session.delete(extra)
+    model.Session.commit()
 
 def _gather(d, key):
     """
