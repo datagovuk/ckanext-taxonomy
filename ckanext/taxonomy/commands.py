@@ -1,4 +1,5 @@
 import logging
+import json
 
 import rdflib
 import skos
@@ -60,6 +61,8 @@ class TaxonomyCommand(cli.CkanCommand):
 
         if cmd == 'load':
             self.load()
+        elif cmd == 'load-extras':
+            self.load_extras()
         elif cmd == 'init':
             self.init()
         elif cmd == 'cleanup':
@@ -135,6 +138,55 @@ class TaxonomyCommand(cli.CkanCommand):
 
         for t in top_level:
             self._add_node(tx, t)
+
+    def load_extras(self):
+        filename = self.options.filename
+        if not filename:
+            print "No FILENAME provided and it is required"
+            print self.usage
+
+        name = self.options.name
+        if not name:
+            print "No NAME provided and it is required"
+            print self.usage
+            return
+
+        with open(filename) as input_file:
+            extras = json.loads(input_file.read())
+
+        import ckan.model as model
+        import ckan.logic as logic
+
+        self.context = {'model': model, 'ignore_auth': True }
+
+        taxonomy_terms = logic.get_action('taxonomy_term_list')(self.context, {'name': name})
+        taxonomy_lookup = dict([(term['label'], term) for term in taxonomy_terms])
+
+        for term in extras:
+            term_name = term['title']
+            term_id = taxonomy_lookup[term_name]['id']
+
+            for extra in term.keys():
+                if extra in ['title', 'stored_as', 'description']:
+                    continue
+
+                data = {
+                    'term_id': term_id,
+                    'label': extra,
+                }
+                existing_extra = logic.get_action('taxonomy_term_extra_show')(self.context, data)
+
+                data = {
+                    'label': extra,
+                    'value': json.dumps(term[extra]),
+                    'term_id': term_id,
+                }
+                if existing_extra:
+                    data['id'] = existing_extra['id']
+                    logic.get_action('taxonomy_term_extra_update')(self.context, data)
+                else:
+                    logic.get_action('taxonomy_term_extra_create')(self.context, data)
+
 
     def _add_node(self, tx, node, parent=None, depth=1):
         import ckan.model as model

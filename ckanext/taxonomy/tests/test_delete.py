@@ -60,6 +60,10 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
             {'id': 'no-such-taxonomy'})
 
     def test_delete_term_valid(self):
+        l = logic.get_action('taxonomy_term_list')(
+            TestDeleteTaxonomy.sysadmin_context,
+            {'id': TestDeleteTaxonomy.taxonomies[0]['id']})
+        old_total = len(l)
         # Create a term to make sure it is deleted
         term1 = logic.get_action('taxonomy_term_create')(
             TestDeleteTaxonomy.sysadmin_context,
@@ -77,7 +81,7 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
         l = logic.get_action('taxonomy_term_list')(
             TestDeleteTaxonomy.sysadmin_context,
             {'id': TestDeleteTaxonomy.taxonomies[0]['id']})
-        assert len(l) == 2
+        assert len(l) == old_total + 2
 
         res = logic.get_action('taxonomy_term_delete')(
             TestDeleteTaxonomy.sysadmin_context,
@@ -86,10 +90,49 @@ class TestDeleteTaxonomy(TaxonomyTestCase):
         l = logic.get_action('taxonomy_term_list')(
             TestDeleteTaxonomy.sysadmin_context,
             {'id': TestDeleteTaxonomy.taxonomies[0]['id']})
-        assert len(l) == 0
+        assert len(l) == old_total
 
     @raises(logic.NotFound)
     def test_delete_term_invalid(self):
         res = logic.get_action('taxonomy_term_delete')(
             TestDeleteTaxonomy.sysadmin_context,
             {'id': 'non-existant'})
+
+    def test_delete_term_extra_valid(self):
+        data = {
+            'label': 'New Term',
+            'uri': 'http://localhost.local/2',
+            'taxonomy_id': TestDeleteTaxonomy.taxonomies[0]['id'],
+        }
+        res = logic.get_action('taxonomy_term_create')(
+            TestDeleteTaxonomy.sysadmin_context,
+            data)
+
+        term_id = res['id']
+
+        data = {
+            'label': 'New Extra',
+            'value': 'Some Extra Info',
+            'term_id': term_id,
+        }
+        res = logic.get_action('taxonomy_term_extra_create')(
+            TestDeleteTaxonomy.sysadmin_context,
+            data)
+
+        total = logic.get_action('taxonomy_term_extra_list')(
+            TestDeleteTaxonomy.sysadmin_context,
+            {'id': term_id})
+        old_total = len(total)
+
+        data = {
+            'id': res['id']
+        }
+        res = logic.get_action('taxonomy_term_extra_delete')(
+            TestDeleteTaxonomy.sysadmin_context,
+            data)
+
+        total = logic.get_action('taxonomy_term_extra_list')(
+            TestDeleteTaxonomy.sysadmin_context,
+            {'id': term_id})
+
+        assert len(total) == old_total - 1, len(total)

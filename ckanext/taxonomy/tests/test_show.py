@@ -2,7 +2,7 @@ import ckan.logic as logic
 
 from ckanext.taxonomy.tests.test_helpers import TaxonomyTestCase
 
-from nose.tools import raises
+from nose.tools import raises, assert_dict_equal
 
 
 class TestShowTaxonomy(TaxonomyTestCase):
@@ -90,11 +90,11 @@ class TestShowTaxonomy(TaxonomyTestCase):
         total = logic.get_action('taxonomy_term_list')(
             TestShowTaxonomy.sysadmin_context,
             {'id': TestShowTaxonomy.taxonomies[0]['id']})
-        assert len(total) == 0, total
+        old_total = len(total)
 
         data = {
             'label': 'New Term',
-            'uri': 'http://localhost.local',
+            'uri': 'http://localhost.local/1',
             'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
         }
         res = logic.get_action('taxonomy_term_create')(
@@ -105,4 +105,69 @@ class TestShowTaxonomy(TaxonomyTestCase):
         total = logic.get_action('taxonomy_term_list')(
             TestShowTaxonomy.sysadmin_context,
             {'id': TestShowTaxonomy.taxonomies[0]['id']})
-        assert len(total) == 1, len(total)
+        assert len(total) == old_total + 1, len(total)
+
+    def test_term_extra_show(self):
+        data = {
+            'label': 'New Term',
+            'uri': 'http://localhost.local/2',
+            'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
+        }
+        res = logic.get_action('taxonomy_term_create')(
+            TestShowTaxonomy.sysadmin_context,
+            data)
+        assert res['id'], res
+
+        term_id = res['id']
+
+        data = {
+            'label': 'New Extra',
+            'value': 'Some Extra Info',
+            'term_id': term_id,
+        }
+        new_extra = logic.get_action('taxonomy_term_extra_create')(
+            TestShowTaxonomy.sysadmin_context,
+            data)
+        assert new_extra['id'], new_extra
+
+        data = {
+            'label': 'New Extra',
+            'term_id': term_id,
+        }
+        saved_extra = logic.get_action('taxonomy_term_extra_show')(
+            TestShowTaxonomy.sysadmin_context,
+            data)
+        assert saved_extra['id'], saved_extra
+
+        assert_dict_equal(new_extra, saved_extra)
+
+    def test_term_extra_list(self):
+        data = {
+            'label': 'New Term',
+            'uri': 'http://localhost.local/3',
+            'taxonomy_id': TestShowTaxonomy.taxonomies[0]['id'],
+        }
+        res = logic.get_action('taxonomy_term_create')(
+            TestShowTaxonomy.sysadmin_context,
+            data)
+        assert res['id'], res
+
+        total = logic.get_action('taxonomy_term_extra_list')(
+            TestShowTaxonomy.sysadmin_context,
+            {'id': res['id']})
+        old_total = len(total)
+
+        data = {
+            'label': 'New Extra',
+            'value': 'Some Extra Info',
+            'term_id': res['id'],
+        }
+        res = logic.get_action('taxonomy_term_extra_create')(
+            TestShowTaxonomy.sysadmin_context,
+            data)
+        assert res['id'], res
+
+        total = logic.get_action('taxonomy_term_extra_list')(
+            TestShowTaxonomy.sysadmin_context,
+            {'id': res['id']})
+        assert len(total) == old_total + 1, len(total)

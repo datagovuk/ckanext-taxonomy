@@ -65,7 +65,13 @@ class TaxonomyPlugin(p.SingletonPlugin):
             'taxonomy_term_show_bulk': actions.taxonomy_term_show_bulk,
             'taxonomy_term_create': actions.taxonomy_term_create,
             'taxonomy_term_update': actions.taxonomy_term_update,
-            'taxonomy_term_delete': actions.taxonomy_term_delete
+            'taxonomy_term_delete': actions.taxonomy_term_delete,
+
+            'taxonomy_term_extra_show':   actions.taxonomy_term_extra_show,
+            'taxonomy_term_extra_list':   actions.taxonomy_term_extra_list,
+            'taxonomy_term_extra_create':   actions.taxonomy_term_extra_create,
+            'taxonomy_term_extra_update':   actions.taxonomy_term_extra_update,
+            'taxonomy_term_extra_delete':   actions.taxonomy_term_extra_delete,
         }
 
     def get_auth_functions(self):
@@ -82,5 +88,11 @@ class TaxonomyPlugin(p.SingletonPlugin):
             'taxonomy_term_show':   auth.taxonomy_term_show,
             'taxonomy_term_create': auth.taxonomy_term_create,
             'taxonomy_term_update': auth.taxonomy_term_update,
-            'taxonomy_term_delete': auth.taxonomy_term_delete
+            'taxonomy_term_delete': auth.taxonomy_term_delete,
+
+            'taxonomy_term_extra_show':   auth.taxonomy_term_extra_show,
+            'taxonomy_term_extra_list':   auth.taxonomy_term_extra_list,
+            'taxonomy_term_extra_create':   auth.taxonomy_term_extra_create,
+            'taxonomy_term_extra_update':   auth.taxonomy_term_extra_update,
+            'taxonomy_term_extra_delete':   auth.taxonomy_term_extra_delete,
         }
