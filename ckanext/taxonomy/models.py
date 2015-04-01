@@ -121,7 +121,7 @@ class TaxonomyTerm(Base):
         return d
 
     def __repr__(self):
-        return u"<Taxonomy Term: %s>" % (self.name)
+        return u"<Taxonomy Term: %s>" % (self.label)
 
 
 def init_tables():
