@@ -9,6 +9,7 @@ from sqlalchemy import func
 from sqlalchemy.ext.declarative import declarative_base
 
 import ckan.model as model
+import ckan.model.types as ckan_types
 from ckan.lib.base import *
 
 
@@ -56,7 +57,7 @@ class Taxonomy(Base):
             'id': self.id,
             'name': self.name,
             'title': self.title,
-            'uri': self.uri
+            'uri': self.uri,
         }
 
     def __repr__(self):
@@ -72,6 +73,7 @@ class TaxonomyTerm(Base):
     label = Column(types.UnicodeText)
     description = Column(types.UnicodeText)
     uri = Column(types.UnicodeText)
+    extras = Column(ckan_types.JsonDictType)
 
     taxonomy_id = Column(types.UnicodeText, ForeignKey('taxonomy.id'),
                          nullable=False)
@@ -115,8 +117,9 @@ class TaxonomyTerm(Base):
             'label': self.label,
             'description': self.description,
             'uri': self.uri,
+            'extras': self.extras,
             'taxonomy_id': self.taxonomy_id,
-            'parent_id': self.parent_id
+            'parent_id': self.parent_id,
         }
         return d
 

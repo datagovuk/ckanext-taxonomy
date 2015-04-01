@@ -1,4 +1,5 @@
 import logging
+import json
 
 import rdflib
 import skos
@@ -60,6 +61,8 @@ class TaxonomyCommand(cli.CkanCommand):
 
         if cmd == 'load':
             self.load()
+        if cmd == 'load-extras':
+            self.load_extras()
         elif cmd == 'init':
             self.init()
         elif cmd == 'cleanup':
@@ -135,6 +138,40 @@ class TaxonomyCommand(cli.CkanCommand):
 
         for t in top_level:
             self._add_node(tx, t)
+
+    def load_extras(self):
+        if not self.options.filename:
+            print "No FILENAME provided and it is required"
+            print self.usage
+            return
+
+        if not self.options.name:
+            print "No NAME provided and it is required"
+            print self.usage
+            return
+
+        with open(self.options.filename) as input_file:
+            extras_list = json.loads(input_file.read())
+
+        import ckan.model as model
+        import ckan.logic as logic
+
+        self.context = {'model': model, 'ignore_auth': True}
+
+        data = {'name': self.options.name}
+        taxonomy_terms = logic.get_action('taxonomy_term_list')(self.context, data)
+        taxonomy_term_lookup = dict([(term['label'], term) for term in taxonomy_terms])
+
+        for extras in extras_list:
+            term_name = extras['title']
+            for key in ['title', 'description', 'stored_as']:
+                if key in extras:
+                    del extras[key]
+
+            term = taxonomy_term_lookup[term_name]
+            term['extras'] = extras
+            print 'extras = ', extras
+            logic.get_action('taxonomy_term_update')(self.context, term)
 
     def _add_node(self, tx, node, parent=None, depth=1):
         import ckan.model as model

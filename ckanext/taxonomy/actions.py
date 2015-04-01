@@ -305,6 +305,7 @@ def taxonomy_term_update(context, data_dict):
     term.parent_id = data_dict.get('parent_id', term.parent_id)
     term.uri = logic.get_or_bust(data_dict, 'uri')
     term.description = data_dict.get('description', '')
+    term.extras = data_dict.get('extras', '')
 
     model.Session.add(term)
     model.Session.commit()
