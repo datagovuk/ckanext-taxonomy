@@ -24,9 +24,12 @@ class TaxonomyCommand(cli.CkanCommand):
      paster taxonomy load --url URL --name NAME --title TITLE --lang LANG --uri URI
      paster taxonomy load --filename FILE --name NAME --title TITLE --lang LANG --uri URI
 
+     # Loading taxonomy extras
+     paster taxonomy load-extras --file FILE --name NAME
+
      Where:
        URL  is the url to a SKOS document
-       FILE is the local path to a SKOS document
+       FILE is the local path to a SKOS/extras document
        NAME is the short-name of the taxonomy
        TITLE is the title of the taxonomy
        LANG (optional) is a language identifier, e.g. en, es, fr
@@ -140,6 +143,28 @@ class TaxonomyCommand(cli.CkanCommand):
             self._add_node(tx, t)
 
     def load_extras(self):
+        '''
+        Load extra information about the terms in the taxonomy
+
+        These are loaded from a JSON file which contains an Array of Objects
+        which have a 'title' key which corresponds to the 'label' of the
+        taxonomy term.
+
+        [{"title": "term1",
+          "extra1", "value2",
+          "extra2", "value2",
+          ...},
+         {"title": "term2",
+          "extra1", "value2",
+          "extra2", "value2",
+          ...}]
+
+        This file format has been adopted from the themes.json file used in
+        data.gov.uk. As well as the 'title', key which is used to match up with
+        the 'label' of the taxonomy term, the keys 'description' and
+        'stored_as' are also removed from the object before storing it in the
+        JSON extras field.
+        '''
         if not self.options.filename:
             print "No FILENAME provided and it is required"
             print self.usage
@@ -166,11 +191,10 @@ class TaxonomyCommand(cli.CkanCommand):
             term_name = extras['title']
             for key in ['title', 'description', 'stored_as']:
                 if key in extras:
-                    del extras[key]
+                    del extras[key] # Remove the unwanted keys from themes.json
 
             term = taxonomy_term_lookup[term_name]
             term['extras'] = extras
-            print 'extras = ', extras
             logic.get_action('taxonomy_term_update')(self.context, term)
 
     def _add_node(self, tx, node, parent=None, depth=1):
