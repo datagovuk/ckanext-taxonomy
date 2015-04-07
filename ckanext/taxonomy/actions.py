@@ -10,7 +10,7 @@
 
 import json
 
-import ckan.plugins.toolkit as toolkit
+import ckan.plugins.toolkit as t
 import ckan.logic as logic
 
 from ckan.lib.munge import munge_name
@@ -19,7 +19,7 @@ from ckanext.taxonomy.models import Taxonomy, TaxonomyTerm
 _check_access = logic.check_access
 
 
-@toolkit.side_effect_free
+@t.side_effect_free
 def taxonomy_list(context, data_dict):
     """ List all of the known taxonomies
 
@@ -33,11 +33,14 @@ def taxonomy_list(context, data_dict):
     return [item.as_dict() for item in items.all()]
 
 
-@toolkit.side_effect_free
+@t.side_effect_free
 def taxonomy_show(context, data_dict):
     """ Shows a single taxonomy.
 
     :param id: The name of id of the taxonomy
+    :param include_terms: Include the terms
+        (optional, default: ``False``)
+    :type include_terms: boolean
 
     :returns: A single taxonomy
     :rtype: A dictionary
@@ -45,6 +48,7 @@ def taxonomy_show(context, data_dict):
     _check_access('taxonomy_show', context, data_dict)
 
     model = context['model']
+    include_terms = t.asbool(data_dict.get('include_terms', False))
     id = data_dict.get('id')
     uri = data_dict.get('uri')
     name = data_dict.get('name')
@@ -59,7 +63,7 @@ def taxonomy_show(context, data_dict):
     if not item:
         raise logic.NotFound()
 
-    return item.as_dict(with_terms=True)
+    return item.as_dict(include_terms=include_terms)
 
 
 def taxonomy_create(context, data_dict):
@@ -157,7 +161,7 @@ def taxonomy_delete(context, data_dict):
     return taxonomy.as_dict()
 
 
-@toolkit.side_effect_free
+@t.side_effect_free
 def taxonomy_term_list(context, data_dict):
     """
     Lists all of the taxonomy terms for the given taxonomy.
@@ -182,7 +186,7 @@ def taxonomy_term_list(context, data_dict):
     return [term.as_dict() for term in terms]
 
 
-@toolkit.side_effect_free
+@t.side_effect_free
 def taxonomy_term_tree(context, data_dict):
     """
     Returns the taxonomy terms as a tree for the given taxonomy
@@ -212,7 +216,7 @@ def taxonomy_term_tree(context, data_dict):
     return terms
 
 
-@toolkit.side_effect_free
+@t.side_effect_free
 def taxonomy_term_show(context, data_dict):
     """
     Shows a single taxonomy term and its children, the taxonomy id is not
@@ -237,7 +241,7 @@ def taxonomy_term_show(context, data_dict):
     return term.as_dict()
 
 
-@toolkit.side_effect_free
+@t.side_effect_free
 def taxonomy_term_show_bulk(context, data_dict):
     """
     When given a list of URIs this function will return a list
