@@ -25,7 +25,7 @@ class TaxonomyCommand(cli.CkanCommand):
      paster taxonomy load --filename FILE --name NAME --title TITLE --lang LANG --uri URI
 
      # Loading taxonomy extras
-     paster taxonomy load-extras --file FILE --name NAME
+     paster taxonomy load-extras --filename FILE --name NAME
 
      Where:
        URL  is the url to a SKOS document
@@ -64,7 +64,7 @@ class TaxonomyCommand(cli.CkanCommand):
 
         if cmd == 'load':
             self.load()
-        if cmd == 'load-extras':
+        elif cmd == 'load-extras':
             self.load_extras()
         elif cmd == 'init':
             self.init()
