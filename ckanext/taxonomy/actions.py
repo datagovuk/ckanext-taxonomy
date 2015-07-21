@@ -259,7 +259,7 @@ def taxonomy_term_show_bulk(context, data_dict):
 
 
 def taxonomy_term_create(context, data_dict):
-    """ Allows for the creation of a mew taxonomy term.
+    """ Allows for the creation of a new taxonomy term.
 
     :returns: The newly updated term
     :rtype: A dictionary

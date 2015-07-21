@@ -141,6 +141,7 @@ class TaxonomyCommand(cli.CkanCommand):
 
         for t in top_level:
             self._add_node(tx, t)
+        print 'Load complete'
 
     def load_extras(self):
         '''
@@ -175,32 +176,12 @@ class TaxonomyCommand(cli.CkanCommand):
             print self.usage
             return
 
-        with open(self.options.filename) as input_file:
-            extras_list = json.loads(input_file.read())
-
-        import ckan.model as model
-        import ckan.logic as logic
-
-        self.context = {'model': model, 'ignore_auth': True}
-
-        data = {'name': self.options.name}
-        taxonomy_terms = logic.get_action('taxonomy_term_list')(self.context, data)
-        taxonomy_term_lookup = dict([(term['label'], term) for term in taxonomy_terms])
-
-        for extras in extras_list:
-            term_name = extras['title']
-            for key in ['title', 'description', 'stored_as']:
-                if key in extras:
-                    del extras[key] # Remove the unwanted keys from themes.json
-
-            term = taxonomy_term_lookup[term_name]
-            term['extras'] = extras
-            logic.get_action('taxonomy_term_update')(self.context, term)
+        import lib
+        lib.load_term_extras(self.options.filename, taxonomy_name=self.options.name)
+        print 'Extras loaded'
 
     def _add_node(self, tx, node, parent=None, depth=1):
-        import ckan.model as model
         import ckan.logic as logic
-        import ckan.lib.munge as munge
 
         print '   ' * depth, node.prefLabel.encode('utf-8')
 
