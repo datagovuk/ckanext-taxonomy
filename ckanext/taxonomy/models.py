@@ -52,13 +52,18 @@ class Taxonomy(Base):
         return model.Session.query(Taxonomy)\
             .filter(Taxonomy.uri == uri).first()
 
-    def as_dict(self, with_terms=False):
-        return {
+    def as_dict(self, include_terms=False):
+        taxonomy = {
             'id': self.id,
             'name': self.name,
             'title': self.title,
             'uri': self.uri,
         }
+        if include_terms:
+            taxonomy['terms'] = []
+            for term in self.terms:
+                taxonomy['terms'].append(term.as_dict())
+        return taxonomy
 
     def __repr__(self):
         return u"<Taxonomy: %s>" % (self.name)
